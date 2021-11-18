@@ -32,6 +32,10 @@
         </plugins>
     </build>
 
+    <properties>
+        <standard.version>1.0.0</standard.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
@@ -41,6 +45,11 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.leego.commons</groupId>
+            <artifactId>standard</artifactId>
+            <version>${standard.version}</version>
         </dependency>
     </dependencies>
 
