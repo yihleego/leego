@@ -10,7 +10,6 @@
         <groupId>io.leego.commons</groupId>
         <artifactId>commons-parent</artifactId>
         <version>1.0.0</version>
-        <relativePath/>
     </parent>
 
     <artifactId>standard</artifactId>
