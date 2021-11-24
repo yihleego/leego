@@ -9,10 +9,11 @@
     <parent>
         <groupId>io.leego.commons</groupId>
         <artifactId>commons-parent</artifactId>
-        <version>${revision}</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>standard</artifactId>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <build>

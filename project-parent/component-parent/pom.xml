@@ -9,7 +9,7 @@
     <parent>
         <groupId>io.leego.project</groupId>
         <artifactId>project-parent</artifactId>
-        <version>${revision}</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>component-parent</artifactId>
@@ -32,6 +32,10 @@
         </plugins>
     </build>
 
+    <properties>
+        <standard.version>1.0.0</standard.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
@@ -45,7 +49,7 @@
         <dependency>
             <groupId>io.leego.commons</groupId>
             <artifactId>standard</artifactId>
-            <version>${project.version}</version>
+            <version>${standard.version}</version>
         </dependency>
     </dependencies>
 

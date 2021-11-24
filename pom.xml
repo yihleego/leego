@@ -8,7 +8,7 @@
 
     <groupId>io.leego</groupId>
     <artifactId>leego-parent</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -18,7 +18,6 @@
     </modules>
 
     <properties>
-        <revision>1.0.0</revision>
         <java.version>17</java.version>
         <encoding>UTF-8</encoding>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
