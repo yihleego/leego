@@ -8,15 +8,17 @@
 
     <groupId>io.leego</groupId>
     <artifactId>leego-parent</artifactId>
-    <version>1.0.0</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>commons-parent</module>
         <module>project-parent</module>
+        <module>spring-boot-parent</module>
     </modules>
 
     <properties>
+        <revision>1.0.0</revision>
         <java.version>17</java.version>
         <encoding>UTF-8</encoding>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -27,7 +29,7 @@
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>
         <grpc.version>1.39.0</grpc.version>
-        <spring-boot.version>2.5.6</spring-boot.version>
+        <spring-boot.version>2.6.0</spring-boot.version>
         <spring-cloud.version>2020.0.4</spring-cloud.version>
         <jackson.version>2.13.0</jackson.version>
         <javaee-api.version>8.0.1</javaee-api.version>

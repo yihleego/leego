@@ -207,8 +207,8 @@ public class Page<T> implements Serializable {
         this.extra = extra;
     }
 
-    public <E> E getExtra(Class<E> type) {
-        return type.cast(extra);
+    public <E> E getExtra(Class<E> clazz) {
+        return clazz.cast(extra);
     }
 
     public boolean isEmpty() {

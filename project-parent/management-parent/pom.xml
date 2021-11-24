@@ -9,7 +9,7 @@
     <parent>
         <groupId>io.leego.project</groupId>
         <artifactId>project-parent</artifactId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>management-parent</artifactId>

@@ -7,21 +7,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.leego.commons</groupId>
-        <artifactId>commons-parent</artifactId>
+        <groupId>io.leego</groupId>
+        <artifactId>leego-parent</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>standard</artifactId>
-    <packaging>jar</packaging>
+    <groupId>io.leego.spring.boot</groupId>
+    <artifactId>spring-boot-parent</artifactId>
+    <packaging>pom</packaging>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <modules>
+        <module>spring-boot-actuator-parent</module>
+        <module>spring-boot-autoconfigure-parent</module>
+        <module>spring-boot-starter-parent</module>
+    </modules>
 
 </project>
