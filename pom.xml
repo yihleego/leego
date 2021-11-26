@@ -39,6 +39,7 @@
         <springfox.version>3.0.0</springfox.version>
         <minio.version>8.3.3</minio.version>
         <okhttp.version>4.9.2</okhttp.version>
+        <guava.version>31.0.1-jre</guava.version>
     </properties>
 
     <build>
@@ -176,6 +177,11 @@
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>
                 <version>${okhttp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
