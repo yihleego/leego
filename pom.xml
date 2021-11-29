@@ -40,6 +40,7 @@
         <minio.version>8.3.3</minio.version>
         <okhttp.version>4.9.2</okhttp.version>
         <guava.version>31.0.1-jre</guava.version>
+        <commons-text.version>1.9</commons-text.version>
     </properties>
 
     <build>
@@ -182,6 +183,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>${commons-text.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
