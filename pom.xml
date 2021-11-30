@@ -28,7 +28,7 @@
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>
         <grpc.version>1.39.0</grpc.version>
-        <spring-boot.version>2.6.0</spring-boot.version>
+        <spring-boot.version>2.6.1</spring-boot.version>
         <spring-cloud.version>2021.0.0-SNAPSHOT</spring-cloud.version>
         <jackson.version>2.13.0</jackson.version>
         <javaee-api.version>8.0.1</javaee-api.version>
