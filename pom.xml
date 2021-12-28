@@ -30,15 +30,15 @@
         <grpc.version>1.39.0</grpc.version>
         <spring-boot.version>2.6.2</spring-boot.version>
         <spring-cloud.version>2021.0.0</spring-cloud.version>
-        <jackson.version>2.13.0</jackson.version>
+        <jackson.version>2.13.1</jackson.version>
         <javaee-api.version>8.0.1</javaee-api.version>
-        <netty.version>4.1.70.Final</netty.version>
+        <netty.version>4.1.72.Final</netty.version>
         <protobuf.version>3.19.1</protobuf.version>
-        <mybatis.version>3.5.7</mybatis.version>
+        <mybatis.version>3.5.9</mybatis.version>
         <mybatis-spring-boot-starter.version>2.2.0</mybatis-spring-boot-starter.version>
         <springfox.version>3.0.0</springfox.version>
-        <minio.version>8.3.3</minio.version>
-        <okhttp.version>4.9.2</okhttp.version>
+        <minio.version>8.3.4</minio.version>
+        <okhttp.version>4.9.3</okhttp.version>
         <guava.version>31.0.1-jre</guava.version>
         <commons-text.version>1.9</commons-text.version>
     </properties>
