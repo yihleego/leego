@@ -25,6 +25,7 @@
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.3.0</maven-javadoc-plugin.version>
+        <tiles-maven-plugin.version>2.25</tiles-maven-plugin.version>
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>
         <grpc.version>1.39.0</grpc.version>
@@ -36,6 +37,7 @@
         <protobuf.version>3.19.1</protobuf.version>
         <mybatis.version>3.5.9</mybatis.version>
         <mybatis-spring-boot-starter.version>2.2.0</mybatis-spring-boot-starter.version>
+        <ebean.version>12.14.0</ebean.version>
         <springfox.version>3.0.0</springfox.version>
         <minio.version>8.3.4</minio.version>
         <okhttp.version>4.9.3</okhttp.version>
@@ -111,6 +113,12 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>io.repaint.maven</groupId>
+                    <artifactId>tiles-maven-plugin</artifactId>
+                    <version>${tiles-maven-plugin.version}</version>
+                    <extensions>true</extensions>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -135,6 +143,13 @@
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
                 <version>${jackson.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.ebean</groupId>
+                <artifactId>ebean-bom</artifactId>
+                <version>${ebean.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
