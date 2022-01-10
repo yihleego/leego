@@ -1,8 +1,10 @@
 package io.leego.commons.standard;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
  * @author Leego Yih
  */
 public class Page<T> implements Serializable {
+    @Serial
     private static final long serialVersionUID = 3214571808482585491L;
     /** Data list. */
     protected List<T> list;
@@ -113,7 +116,7 @@ public class Page<T> implements Serializable {
 
     public static <T> Page<T> of(Collection<T> collection) {
         if (collection == null) {
-            return new Page<>(new ArrayList<>());
+            return new Page<>(Collections.emptyList());
         }
         if (collection instanceof List) {
             return new Page<>((List<T>) collection);
@@ -121,13 +124,29 @@ public class Page<T> implements Serializable {
         return new Page<>(new ArrayList<>(collection));
     }
 
+    public static <T, U> Page<U> empty(Page<T> page) {
+        if (page == null) {
+            return new Page<>(Collections.emptyList());
+        }
+        return new Page<>(Collections.emptyList(),
+                page.page, page.size, page.total, page.pages, page.next, page.previous, page.extra);
+    }
+
+    public static <T> Page<T> empty(Pageable pageable) {
+        return new Page<>(Collections.emptyList(), pageable.getPage(), pageable.getSize());
+    }
+
     public static <T> Page<T> empty() {
-        return new Page<>(new ArrayList<>());
+        return new Page<>(Collections.emptyList());
     }
 
     public <U> Page<U> map(Function<? super T, ? extends U> converter) {
-        return new Page<>(list == null ? null : list.stream().map(converter).collect(Collectors.toList()),
+        return new Page<>(list == null ? Collections.emptyList() : list.stream().map(converter).collect(Collectors.toList()),
                 page, size, total, pages, next, previous, extra);
+    }
+
+    public <U> Page<U> toEmpty() {
+        return new Page<>(Collections.emptyList(), page, size, total, pages, next, previous, extra);
     }
 
     public Page<T> peek(Consumer<? super T> action) {

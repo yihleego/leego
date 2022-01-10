@@ -11,10 +11,4 @@ public interface Pageable {
     /** Returns the size of the page to be returned. */
     Integer getSize();
 
-    /** Returns zero-based row index. */
-    Long getOffset();
-
-    /** Returns the rows of the page to be returned. */
-    Integer getRows();
-
 }
