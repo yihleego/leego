@@ -13,6 +13,8 @@ public class PageRequest implements Pageable, Serializable {
     protected Integer page;
     /** The size of the page to be returned. */
     protected Integer size;
+    /** The sorting parameters. */
+    protected Sort sort;
 
     public PageRequest() {
     }
@@ -20,6 +22,12 @@ public class PageRequest implements Pageable, Serializable {
     public PageRequest(Integer page, Integer size) {
         this.page = page;
         this.size = size;
+    }
+
+    public PageRequest(Integer page, Integer size, Sort sort) {
+        this.page = page;
+        this.size = size;
+        this.sort = sort;
     }
 
     @Override
@@ -38,5 +46,25 @@ public class PageRequest implements Pageable, Serializable {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    @Override
+    public Sort getSort() {
+        return sort;
+    }
+
+    @Override
+    public PageRequest next() {
+        return new PageRequest(getPage() + 1, getSize(), getSort());
+    }
+
+    @Override
+    public PageRequest previous() {
+        return getPage() == 0 ? this : new PageRequest(getPage() - 1, getSize(), getSort());
+    }
+
+    @Override
+    public PageRequest first() {
+        return new PageRequest(0, getSize(), getSort());
     }
 }
