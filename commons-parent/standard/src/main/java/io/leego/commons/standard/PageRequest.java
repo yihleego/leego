@@ -47,6 +47,15 @@ public class PageRequest extends SortRequest implements Pageable, Sortable, Seri
     }
 
     @Override
+    public Long getOffset() {
+        if (page != null && size != null) {
+            return (long) (page - 1) * (long) size;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public PageRequest next() {
         return new PageRequest(getPage() + 1, getSize(), getSort());
     }

@@ -11,6 +11,9 @@ public interface Pageable extends Sortable {
     /** Returns the size of the page to be returned. */
     Integer getSize();
 
+    /** Returns the offset to be taken according to the underlying page and size. */
+    Long getOffset();
+
     /** Returns the {@link Pageable} requesting the next {@link Page}. */
     Pageable next();
 
