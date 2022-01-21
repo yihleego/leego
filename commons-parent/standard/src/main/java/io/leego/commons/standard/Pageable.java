@@ -3,7 +3,7 @@ package io.leego.commons.standard;
 /**
  * @author Leego Yih
  */
-public interface Pageable {
+public interface Pageable extends Sortable {
 
     /** Returns one-based page index. */
     Integer getPage();
@@ -19,9 +19,6 @@ public interface Pageable {
 
     /** Returns the {@link Pageable} requesting the first page. */
     Pageable first();
-
-    /** Returns the sorting parameters. */
-    Sort getSort();
 
     /** Returns whether the current {@link Pageable} contains pagination information. */
     default boolean isPaged() {

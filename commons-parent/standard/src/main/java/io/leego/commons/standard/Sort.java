@@ -17,7 +17,10 @@ public class Sort implements Serializable {
     private static final Sort UNSORTED = Sort.by(new Order[0]);
     private static final Direction DEFAULT_DIRECTION = Direction.ASC;
 
-    private final List<Order> orders;
+    private List<Order> orders;
+
+    protected Sort() {
+    }
 
     protected Sort(List<Order> orders) {
         this.orders = orders;
@@ -105,6 +108,14 @@ public class Sort implements Serializable {
 
     public Iterator<Order> iterator() {
         return this.orders.iterator();
+    }
+
+    public List<Order> getOrders() {
+        return this.orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override

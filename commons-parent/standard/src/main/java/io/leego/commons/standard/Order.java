@@ -12,9 +12,12 @@ public class Order implements Serializable {
     private static final boolean DEFAULT_IGNORE_CASE = false;
     private static final Direction DEFAULT_DIRECTION = Direction.ASC;
 
-    private final Direction direction;
-    private final String property;
-    private final boolean ignoreCase;
+    private Direction direction;
+    private String property;
+    private boolean ignoreCase;
+
+    public Order() {
+    }
 
     public Order(Direction direction, String property) {
         this(direction, property, DEFAULT_IGNORE_CASE);

@@ -6,15 +6,13 @@ import java.io.Serializable;
 /**
  * @author Leego Yih
  */
-public class PageRequest implements Pageable, Serializable {
+public class PageRequest extends SortRequest implements Pageable, Sortable, Serializable {
     @Serial
     private static final long serialVersionUID = -542101357510265940L;
     /** One-based page index. */
     protected Integer page;
     /** The size of the page to be returned. */
     protected Integer size;
-    /** The sorting parameters. */
-    protected Sort sort;
 
     public PageRequest() {
     }
@@ -46,11 +44,6 @@ public class PageRequest implements Pageable, Serializable {
 
     public void setSize(Integer size) {
         this.size = size;
-    }
-
-    @Override
-    public Sort getSort() {
-        return sort;
     }
 
     @Override
