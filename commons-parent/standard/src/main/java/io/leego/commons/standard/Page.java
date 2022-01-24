@@ -161,10 +161,6 @@ public class Page<T> implements Serializable {
         return list != null && page != null && size != null && total != null;
     }
 
-    public boolean isUnpaged() {
-        return !isPaged();
-    }
-
     public boolean hasPrevious() {
         return page != null && size != null && page > 1 && size > 0;
     }
