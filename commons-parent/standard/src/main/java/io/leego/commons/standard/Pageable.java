@@ -5,10 +5,10 @@ package io.leego.commons.standard;
  */
 public interface Pageable extends Sortable {
 
-    /** Returns one-based page index. */
+    /** Returns the page to be returned, zero-based page index, must be greater than zero. */
     Integer getPage();
 
-    /** Returns the size of the page to be returned. */
+    /** Returns the size of the page to be returned, must be greater than zero. */
     Integer getSize();
 
     /** Returns the offset to be taken according to the underlying page and size. */
