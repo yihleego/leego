@@ -30,10 +30,9 @@
         <protobuf-maven-plugin.version>0.6.1</protobuf-maven-plugin.version>
         <os-maven-plugin.version>1.7.0</os-maven-plugin.version>
         <grpc.version>1.39.0</grpc.version>
-        <spring-boot.version>2.6.2</spring-boot.version>
+        <spring-boot.version>3.0.0-M1</spring-boot.version>
         <spring-cloud.version>2021.0.0</spring-cloud.version>
         <jackson.version>2.13.1</jackson.version>
-        <javaee-api.version>8.0.1</javaee-api.version>
         <netty.version>4.1.73.Final</netty.version>
         <protobuf.version>3.19.1</protobuf.version>
         <mybatis.version>3.5.9</mybatis.version>
@@ -176,10 +175,10 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>javax</groupId>
-                <artifactId>javaee-api</artifactId>
-                <version>${javaee-api.version}</version>
-                <scope>provided</scope>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-apt</artifactId>
+                <classifier>jakarta</classifier>
+                <version>${querydsl.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
