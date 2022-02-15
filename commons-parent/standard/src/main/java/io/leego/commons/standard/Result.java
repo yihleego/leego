@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -128,6 +129,13 @@ public class Result<T> implements Serializable {
 
     public static boolean isSuccessfulWithData(Result<?> result) {
         return isSuccessful(result) && result.getData() != null;
+    }
+
+    public static <T, E extends Throwable> T getDataOrThrow(Result<T> result, BiFunction<Integer, String, E> s) throws E {
+        if (result.getSuccess()) {
+            return result.getData();
+        }
+        throw s.apply(result.getCode(), result.getMessage());
     }
 
     public T getData() {
