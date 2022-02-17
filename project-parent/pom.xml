@@ -21,10 +21,11 @@
         <module>gateway-parent</module>
         <module>app-parent</module>
         <module>center-parent</module>
-        <module>management-parent</module>
+        <module>workbench-parent</module>
         <module>service-parent</module>
         <module>provider-parent</module>
         <module>component-parent</module>
+        <module>open-parent</module>
     </modules>
 
 </project>

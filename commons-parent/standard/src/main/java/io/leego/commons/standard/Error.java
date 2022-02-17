@@ -5,10 +5,10 @@ package io.leego.commons.standard;
  */
 public interface Error {
 
-    /** Returns code. */
+    /** Returns error code. */
     Integer getCode();
 
-    /** Returns message. */
+    /** Returns error message. */
     String getMessage();
 
 }
