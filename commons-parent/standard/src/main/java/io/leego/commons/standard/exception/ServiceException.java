@@ -22,6 +22,7 @@ public class ServiceException extends RuntimeException {
 
     /**
      * Constructs a new service exception with the specified detail message.
+     *
      * @param message the detail message.
      */
     public ServiceException(String message) {
@@ -31,6 +32,7 @@ public class ServiceException extends RuntimeException {
 
     /**
      * Constructs a new service exception with the specified detail message and cause.
+     *
      * @param message the detail message.
      * @param cause   the cause.
      */
@@ -41,6 +43,7 @@ public class ServiceException extends RuntimeException {
 
     /**
      * Constructs a new service exception with the cause.
+     *
      * @param cause the cause.
      */
     public ServiceException(Throwable cause) {
@@ -50,6 +53,7 @@ public class ServiceException extends RuntimeException {
 
     /**
      * Constructs a new service exception with the error code and specified detail message.
+     *
      * @param code    the error code.
      * @param message the detail message.
      */
@@ -60,6 +64,7 @@ public class ServiceException extends RuntimeException {
 
     /**
      * Constructs a new service exception with the error code and cause.
+     *
      * @param code  the error code.
      * @param cause the cause.
      */
@@ -70,6 +75,7 @@ public class ServiceException extends RuntimeException {
 
     /**
      * Constructs a new service exception with the error code, specified detail message and cause.
+     *
      * @param code    the error code.
      * @param message the detail message.
      * @param cause   the cause.
@@ -81,6 +87,7 @@ public class ServiceException extends RuntimeException {
 
     /**
      * Constructs a new service exception with the error.
+     *
      * @param error the error.
      */
     public ServiceException(Error error) {
@@ -89,6 +96,7 @@ public class ServiceException extends RuntimeException {
 
     /**
      * Constructs a new service exception with the error and cause.
+     *
      * @param error the error.
      * @param cause the cause.
      */

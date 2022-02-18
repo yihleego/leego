@@ -51,10 +51,7 @@ public class NamedThreadFactory implements ThreadFactory {
 
     @Override
     public Thread newThread(Runnable runnable) {
-        Thread thread = new Thread(
-                group,
-                runnable,
-                nextName());
+        Thread thread = new Thread(group, runnable, nextName());
         thread.setDaemon(daemon);
         if (thread.getPriority() != Thread.NORM_PRIORITY) {
             thread.setPriority(Thread.NORM_PRIORITY);

@@ -18,6 +18,7 @@ public class NoSuchBeanException extends RuntimeException {
 
     /**
      * Constructs a new exception with the specified detail message.
+     *
      * @param message the detail message.
      */
     public NoSuchBeanException(String message) {
@@ -26,6 +27,7 @@ public class NoSuchBeanException extends RuntimeException {
 
     /**
      * Constructs a new exception with the specified detail message and cause.
+     *
      * @param message the detail message.
      * @param cause   the cause.
      */
@@ -35,6 +37,7 @@ public class NoSuchBeanException extends RuntimeException {
 
     /**
      * Constructs a new exception with the cause.
+     *
      * @param cause the cause.
      */
     public NoSuchBeanException(Throwable cause) {
