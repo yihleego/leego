@@ -51,6 +51,14 @@ public final class JSONUtils {
     }
 
     public static String toJSONString(Object value) {
+        return toJSONString(mapper, value);
+    }
+
+    public static String toJSONString(Object value, boolean includeNonNull) {
+        return toJSONString(includeNonNull ? nonNullMapper : mapper, value);
+    }
+
+    public static String toJSONString(ObjectMapper mapper, Object value) {
         if (value == null) {
             return null;
         }
@@ -62,37 +70,19 @@ public final class JSONUtils {
     }
 
     public static byte[] toJSONBytes(Object value) {
+        return toJSONBytes(mapper, value);
+    }
+
+    public static byte[] toJSONBytes(Object value, boolean includeNonNull) {
+        return toJSONBytes(includeNonNull ? nonNullMapper : mapper, value);
+    }
+
+    public static byte[] toJSONBytes(ObjectMapper mapper, Object value) {
         if (value == null) {
             return null;
         }
         try {
             return mapper.writeValueAsBytes(value);
-        } catch (JsonProcessingException e) {
-            throw new JSONException(e);
-        }
-    }
-
-    public static String toJSONString(Object value, boolean includeNonNull) {
-        if (value == null) {
-            return null;
-        }
-        try {
-            return includeNonNull
-                    ? nonNullMapper.writeValueAsString(value)
-                    : mapper.writeValueAsString(value);
-        } catch (JsonProcessingException e) {
-            throw new JSONException(e);
-        }
-    }
-
-    public static byte[] toJSONBytes(Object value, boolean includeNonNull) {
-        if (value == null) {
-            return null;
-        }
-        try {
-            return includeNonNull
-                    ? nonNullMapper.writeValueAsBytes(value)
-                    : mapper.writeValueAsBytes(value);
         } catch (JsonProcessingException e) {
             throw new JSONException(e);
         }
