@@ -7,22 +7,22 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Leego Yih
  */
 public class NamedThreadFactory implements ThreadFactory {
-    private static final String DEFAULT_GROUP_NAME = "system";
-    private final ThreadGroup group;
+    private static final String DEFAULT_GROUP_NAME = "default";
     private final AtomicLong threadNumber = new AtomicLong(0);
+    private final ThreadGroup group;
     private final String namePrefix;
     private final boolean daemon;
 
     public NamedThreadFactory(String namePrefix, boolean daemon) {
+        this.group = new ThreadGroup(DEFAULT_GROUP_NAME);
         this.namePrefix = namePrefix;
         this.daemon = daemon;
-        this.group = new ThreadGroup(DEFAULT_GROUP_NAME);
     }
 
     public NamedThreadFactory(String groupName, String namePrefix, boolean daemon) {
+        this.group = new ThreadGroup(groupName);
         this.namePrefix = namePrefix;
         this.daemon = daemon;
-        this.group = new ThreadGroup(groupName);
     }
 
     public static ThreadFactory build(String groupName, String namePrefix, boolean daemon) {
