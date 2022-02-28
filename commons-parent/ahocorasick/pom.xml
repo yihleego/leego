@@ -7,21 +7,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.leego</groupId>
-        <artifactId>leego-parent</artifactId>
+        <groupId>io.leego.commons</groupId>
+        <artifactId>commons-parent</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <groupId>io.leego.commons</groupId>
-    <artifactId>commons-parent</artifactId>
+    <artifactId>ahocorasick</artifactId>
     <version>1.0.0</version>
-    <packaging>pom</packaging>
 
-    <modules>
-        <module>ahocorasick</module>
-        <module>json</module>
-        <module>sequence</module>
-        <module>standard</module>
-    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
