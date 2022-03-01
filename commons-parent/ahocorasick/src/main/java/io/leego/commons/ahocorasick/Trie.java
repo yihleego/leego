@@ -65,7 +65,6 @@ public class Trie implements Serializable {
         keywords.stream()
                 .filter(keyword -> keyword != null && !keyword.isEmpty())
                 .forEach(keyword -> root.addState(caseInsensitive ? keyword.toLowerCase() : keyword).addKeyword(keyword));
-        keywords.clear();
         Queue<State> queue = new LinkedList<>();
         for (State state : root.getStates()) {
             state.setFailure(root);
