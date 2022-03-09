@@ -33,7 +33,7 @@
         <spring-boot.version>3.0.0-M1</spring-boot.version>
         <spring-cloud.version>2022.0.0-M1</spring-cloud.version>
         <jackson.version>2.13.1</jackson.version>
-        <netty.version>4.1.73.Final</netty.version>
+        <netty.version>4.1.74.Final</netty.version>
         <protobuf.version>3.19.1</protobuf.version>
         <mybatis.version>3.5.9</mybatis.version>
         <mybatis-spring-boot-starter.version>2.2.0</mybatis-spring-boot-starter.version>
