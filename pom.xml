@@ -32,18 +32,18 @@
         <grpc.version>1.39.0</grpc.version>
         <spring-boot.version>3.0.0-M1</spring-boot.version>
         <spring-cloud.version>2022.0.0-M1</spring-cloud.version>
-        <jackson.version>2.13.1</jackson.version>
+        <jackson.version>2.13.2</jackson.version>
         <netty.version>4.1.74.Final</netty.version>
-        <protobuf.version>3.19.1</protobuf.version>
+        <protobuf.version>3.19.4</protobuf.version>
         <mybatis.version>3.5.9</mybatis.version>
-        <mybatis-spring-boot-starter.version>2.2.0</mybatis-spring-boot-starter.version>
+        <mybatis-spring-boot-starter.version>2.2.2</mybatis-spring-boot-starter.version>
         <mongodb-morphia.version>1.3.2</mongodb-morphia.version>
-        <ebean.version>12.14.0</ebean.version>
+        <ebean.version>12.15.1</ebean.version>
         <querydsl.version>5.0.0</querydsl.version>
         <springfox.version>3.0.0</springfox.version>
-        <minio.version>8.3.4</minio.version>
+        <minio.version>8.3.7</minio.version>
         <okhttp.version>4.9.3</okhttp.version>
-        <guava.version>31.0.1-jre</guava.version>
+        <guava.version>31.1-jre</guava.version>
         <commons-text.version>1.9</commons-text.version>
     </properties>
 
