@@ -44,6 +44,26 @@ public class Order implements Serializable {
         return new Order(Direction.DESC, property);
     }
 
+    public static Order parse(String value) {
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException("Invalid value");
+        }
+        int i = value.indexOf(':');
+        if (i == -1) {
+            return Order.by(value.strip());
+        }
+        String p = value.substring(0, i).strip();
+        String d = value.substring(i + 1).strip();
+        if (p.isEmpty()) {
+            throw new IllegalArgumentException("Invalid property '%s'".formatted(p));
+        }
+        return new Order(Direction.fromString(d), p);
+    }
+
+    public static String format(Order order) {
+        return order.getProperty() + ":" + order.getDirection();
+    }
+
     public Direction getDirection() {
         return direction;
     }

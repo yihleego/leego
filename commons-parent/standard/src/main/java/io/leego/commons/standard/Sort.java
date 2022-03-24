@@ -64,6 +64,30 @@ public class Sort implements Serializable {
         return UNSORTED;
     }
 
+    public static Sort parse(String value) {
+        if (value == null || value.isEmpty()) {
+            return Sort.unsorted();
+        }
+        if (value.indexOf(',') > 0) {
+            return Sort.by(Arrays.stream(value.split(","))
+                    .filter(o -> o != null && !o.isBlank())
+                    .map(Order::parse)
+                    .collect(Collectors.toList()));
+        } else {
+            return Sort.by(Order.parse(value));
+        }
+    }
+
+    public static String format(Sort sort) {
+        if (sort == null) {
+            return null;
+        }
+        return sort.getOrders()
+                .stream()
+                .map(Order::format)
+                .collect(Collectors.joining(","));
+    }
+
     public Sort descending() {
         return withDirection(Direction.DESC);
     }

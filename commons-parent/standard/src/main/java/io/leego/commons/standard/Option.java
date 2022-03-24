@@ -1,5 +1,6 @@
 package io.leego.commons.standard;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
  * @author Leego Yih
  */
 public class Option<K, V> implements Serializable {
+    @Serial
     private static final long serialVersionUID = -121222596239767866L;
     private K key;
     private V value;
