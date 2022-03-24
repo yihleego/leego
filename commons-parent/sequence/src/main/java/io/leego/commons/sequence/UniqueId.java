@@ -149,7 +149,7 @@ public final class UniqueId implements Comparable<UniqueId>, Serializable {
      * @throws IllegalArgumentException if the string is not a valid hex string representation of an {@code UniqueId}.
      */
     public UniqueId(String hexString) {
-        this(HexUtils.decode(hexString));
+        this(Hex.decode(hexString));
     }
 
     /**
@@ -205,7 +205,7 @@ public final class UniqueId implements Comparable<UniqueId>, Serializable {
      * @return a 24-byte hexadecimal string representation of the {@code UniqueId}.
      */
     public String toHexString() {
-        return hex != null ? hex : (hex = HexUtils.encode(toByteArray()));
+        return hex != null ? hex : (hex = Hex.encode(toByteArray()));
     }
 
     /**
@@ -259,6 +259,48 @@ public final class UniqueId implements Comparable<UniqueId>, Serializable {
     @Override
     public String toString() {
         return toHexString();
+    }
+
+    static class Hex {
+        /** Table for byte to hex string translation. */
+        static final char[] HEX = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+        /** Table for HEX to DEC byte translation. */
+        static final int[] DEC = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, -1, -1, -1, -1, -1, -1, -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 10, 11, 12, 13, 14, 15};
+
+        static String encode(byte[] bytes) {
+            if (bytes == null) {
+                return null;
+            }
+            int i = 0;
+            char[] chars = new char[bytes.length << 1];
+            for (byte b : bytes) {
+                chars[i++] = HEX[(b & 0xf0) >> 4];
+                chars[i++] = HEX[b & 0x0f];
+            }
+            return new String(chars);
+        }
+
+        static byte[] decode(String s) {
+            if (s == null) {
+                return null;
+            }
+            if ((s.length() & 1) == 1) {
+                // Odd number of characters
+                throw new IllegalArgumentException("Odd digits");
+            }
+            char[] chars = s.toCharArray();
+            byte[] bytes = new byte[s.length() >> 1];
+            for (int i = 0; i < bytes.length; i++) {
+                int upper = DEC[chars[2 * i] - 48];
+                int lower = DEC[chars[2 * i + 1] - 48];
+                if (upper < 0 || lower < 0) {
+                    // Non-hex character
+                    throw new IllegalArgumentException("Non hex");
+                }
+                bytes[i] = (byte) ((upper << 4) + lower);
+            }
+            return bytes;
+        }
     }
 }
 
