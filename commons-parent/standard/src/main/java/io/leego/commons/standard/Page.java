@@ -266,7 +266,5 @@ public class Page<T> implements Serializable {
         public Page<T> build() {
             return new Page<>(list, page, size, total, pages, extra);
         }
-
     }
-
 }

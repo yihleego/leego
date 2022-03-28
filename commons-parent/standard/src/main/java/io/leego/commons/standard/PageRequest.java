@@ -2,6 +2,7 @@ package io.leego.commons.standard;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author Leego Yih
@@ -48,11 +49,15 @@ public class PageRequest extends SortRequest implements Pageable, Sortable, Seri
 
     @Override
     public Long getOffset() {
-        if (page != null && size != null) {
-            return (long) (page - 1) * (long) size;
-        } else {
+        if (page == null || size == null) {
             return null;
         }
+        return (long) (page - 1) * (long) size;
+    }
+
+    @Override
+    public boolean isPaged() {
+        return page != null && size != null && page > 0 && size > 0;
     }
 
     @Override
@@ -68,5 +73,28 @@ public class PageRequest extends SortRequest implements Pageable, Sortable, Seri
     @Override
     public PageRequest first() {
         return new PageRequest(0, getSize(), getSort());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof PageRequest that))
+            return false;
+        if (!super.equals(o))
+            return false;
+        return Objects.equals(page, that.page) && Objects.equals(size, that.size);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (page != null ? page.hashCode() : 0);
+        result = 31 * result + (size != null ? size.hashCode() : 0);
+        return result;
+    }
+
+    public String toString() {
+        return String.format("Page request [page: %d, size %d, sort: %s]", this.page, this.size, this.sort);
     }
 }

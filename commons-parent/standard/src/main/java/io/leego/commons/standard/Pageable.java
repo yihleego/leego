@@ -14,6 +14,9 @@ public interface Pageable extends Sortable {
     /** Returns the offset to be taken according to the underlying page and size. */
     Long getOffset();
 
+    /** Returns whether the current {@link Pageable} contains pagination information. */
+    boolean isPaged();
+
     /** Returns the {@link Pageable} requesting the next {@link Page}. */
     Pageable next();
 
@@ -23,13 +26,4 @@ public interface Pageable extends Sortable {
     /** Returns the {@link Pageable} requesting the first page. */
     Pageable first();
 
-    /** Returns whether the current {@link Pageable} contains pagination information. */
-    default boolean isPaged() {
-        return isValid(getPage(), getSize());
-    }
-
-    /** Returns <code>true</code> if the <code>page</code> and <code>size</code> are valid. */
-    static boolean isValid(Integer page, Integer size) {
-        return page != null && size != null && page > 0 && size > 0;
-    }
 }

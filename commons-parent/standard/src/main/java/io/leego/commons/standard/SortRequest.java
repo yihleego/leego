@@ -2,6 +2,7 @@ package io.leego.commons.standard;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author Leego Yih
@@ -31,5 +32,24 @@ public class SortRequest implements Sortable, Serializable {
     @Override
     public boolean isSorted() {
         return sort != null && sort.isSorted();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof SortRequest that))
+            return false;
+        return Objects.equals(sort, that.sort);
+    }
+
+    @Override
+    public int hashCode() {
+        return sort != null ? sort.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Sort request [sort: %s]", this.sort);
     }
 }

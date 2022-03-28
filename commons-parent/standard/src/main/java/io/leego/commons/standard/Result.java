@@ -2,11 +2,6 @@ package io.leego.commons.standard;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -24,15 +19,20 @@ public class Result<T> implements Serializable {
     public Result() {
     }
 
+    public Result(Boolean success) {
+        this.success = success;
+    }
+
+    public Result(T data, Boolean success) {
+        this.data = data;
+        this.success = success;
+    }
+
     public Result(T data, Boolean success, String message, Integer code) {
         this.data = data;
         this.success = success;
         this.message = message;
         this.code = code;
-    }
-
-    protected Result(Boolean success) {
-        this.success = success;
     }
 
     public static <T> Result<T> buildSuccess(Integer code, String message, T data) {
@@ -80,43 +80,19 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> buildFailure() {
-        return new Result<>(null, false, null, null);
-    }
-
-    public static <T> Result<T> buildFailure(Result<?> result) {
-        if (result != null) {
-            return new Result<>(null, false, result.getMessage(), result.getCode());
-        } else {
-            return new Result<>(null, false, null, null);
-        }
+        return new Result<>(false);
     }
 
     public static <T> Result<T> buildFailure(Error error) {
-        if (error != null) {
-            return new Result<>(null, false, error.getMessage(), error.getCode());
-        } else {
-            return new Result<>(null, false, null, null);
-        }
+        return error != null
+                ? new Result<T>(null, false, error.getMessage(), error.getCode())
+                : new Result<T>(false);
     }
 
     public static <T> Result<T> buildFailure(Throwable cause) {
-        if (cause != null) {
-            return new Result<>(null, false, cause.getMessage(), null);
-        } else {
-            return new Result<>(null, false, null, null);
-        }
-    }
-
-    public static <E> Result<List<E>> emptyList() {
-        return new Result<>(Collections.emptyList(), true, null, null);
-    }
-
-    public static <E> Result<Set<E>> emptySet() {
-        return new Result<>(Collections.emptySet(), true, null, null);
-    }
-
-    public static <K, V> Result<Map<K, V>> emptyMap() {
-        return new Result<>(Collections.emptyMap(), true, null, null);
+        return cause != null
+                ? new Result<T>(null, false, cause.getMessage(), null)
+                : new Result<T>(false);
     }
 
     public static boolean isSuccessful(Result<?> result) {
@@ -174,8 +150,8 @@ public class Result<T> implements Serializable {
         return new Result<>(converter.apply(data), success, message, code);
     }
 
-    public <U> Result<U> mapOptional(Function<Optional<T>, U> converter) {
-        return new Result<>(converter.apply(Optional.ofNullable(data)), success, message, code);
+    public <U> Result<U> mapIfPresent(Function<T, U> converter) {
+        return new Result<>(data != null ? converter.apply(data) : null, success, message, code);
     }
 
     public <U> Result<U> toFailure() {
