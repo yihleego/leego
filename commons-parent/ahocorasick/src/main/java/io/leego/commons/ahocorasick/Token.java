@@ -22,7 +22,16 @@ public class Token implements Serializable {
         return emit;
     }
 
-    public boolean isMatched() {
+    public boolean isMatch() {
         return emit != null;
+    }
+
+    @Override
+    public String toString() {
+        if (emit == null) {
+            return fragment;
+        } else {
+            return fragment + "[" + emit + "]";
+        }
     }
 }

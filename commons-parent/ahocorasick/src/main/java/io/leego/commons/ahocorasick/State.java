@@ -16,7 +16,6 @@ public class State implements Serializable {
     @Serial
     private static final long serialVersionUID = -6350361756888572415L;
     private final int depth;
-    private final State root;
     private final Map<Character, State> success;
     private State failure;
     private Set<String> keywords;
@@ -27,41 +26,52 @@ public class State implements Serializable {
 
     public State(int depth) {
         this.depth = depth;
-        this.root = depth == 0 ? this : null;
         this.success = new HashMap<>();
     }
 
     public State nextState(char c) {
+        return nextState(c, false);
+    }
+
+    public State nextState(char c, boolean ignoreCase) {
         State next = success.get(c);
-        if (next == null && root != null) {
-            next = root;
+        if (next != null) {
+            return next;
+        }
+        if (ignoreCase) {
+            char cc;
+            if (Character.isLowerCase(c)) {
+                cc = Character.toUpperCase(c);
+            } else if (Character.isUpperCase(c)) {
+                cc = Character.toLowerCase(c);
+            } else {
+                cc = c;
+            }
+            if (c != cc) {
+                next = success.get(cc);
+            }
+        }
+        if (next == null && depth == 0) {
+            next = this;
         }
         return next;
     }
 
-    public State nextStateIgnoreRoot(char c) {
-        return success.get(c);
-    }
-
-    public State addState(String keyword) {
+    public State addState(CharSequence cs) {
         State state = this;
-        for (char c : keyword.toCharArray()) {
-            state = state.addState(c);
+        for (int i = 0; i < cs.length(); i++) {
+            state = state.addState(cs.charAt(i));
         }
         return state;
     }
 
     public State addState(char c) {
-        State state = nextStateIgnoreRoot(c);
+        State state = success.get(c);
         if (state == null) {
             state = new State(depth + 1);
             success.put(c, state);
         }
         return state;
-    }
-
-    public int getDepth() {
-        return depth;
     }
 
     public void addKeyword(String keyword) {
@@ -94,7 +104,15 @@ public class State implements Serializable {
         return success.values();
     }
 
-    public Collection<Character> getTransitions() {
+    public Set<Character> getTransitions() {
         return success.keySet();
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public boolean isRoot() {
+        return depth == 0;
     }
 }

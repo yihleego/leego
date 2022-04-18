@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * @author Leego Yih
  */
-public class Emit implements Serializable {
+public class Emit implements Comparable<Emit>, Serializable {
     @Serial
     private static final long serialVersionUID = -8879895979621579720L;
     /** The beginning index, inclusive. */
@@ -38,21 +38,41 @@ public class Emit implements Serializable {
         return keyword;
     }
 
+    public boolean overlaps(Emit o) {
+        return this.begin < o.end && this.end > o.begin;
+    }
+
+    public boolean contains(Emit o) {
+        return this.begin <= o.begin && this.end >= o.end;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
         if (!(o instanceof Emit))
             return false;
-        Emit emit = (Emit) o;
-        return begin == emit.begin
-                && end == emit.end
-                && Objects.equals(keyword, emit.keyword);
+        Emit that = (Emit) o;
+        return this.begin == that.begin
+                && this.end == that.end
+                && Objects.equals(this.keyword, that.keyword);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(begin, end, keyword);
+    }
+
+    @Override
+    public int compareTo(Emit o) {
+        if (o == null) {
+            return -1;
+        }
+        if (this.begin != o.begin) {
+            return Integer.compare(this.begin, o.begin);
+        } else {
+            return Integer.compare(this.end, o.end);
+        }
     }
 
     @Override

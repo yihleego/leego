@@ -15,18 +15,19 @@ import java.util.Set;
 public class Trie implements Serializable {
     @Serial
     private static final long serialVersionUID = 7464998650081881647L;
-    private final State root = new State();
-    private boolean caseInsensitive = false;
+    private final State root;
 
-    private Trie() {
+    public Trie(Set<String> keywords) {
+        this.root = new State();
+        this.init(keywords);
     }
 
-    public Emits find(String text) {
+    public Emits findAll(CharSequence text, boolean ignoreCase) {
         Emits emits = new Emits(text);
         State current = root;
         for (int i = 0; i < text.length(); i++) {
-            char c = caseInsensitive ? Character.toLowerCase(text.charAt(i)) : text.charAt(i);
-            current = nextState(current, c);
+            char c = text.charAt(i);
+            current = nextState(current, c, ignoreCase);
             Set<String> keywords = current.getKeywords();
             for (String keyword : keywords) {
                 emits.add(new Emit(i - keyword.length() + 1, i + 1, keyword));
@@ -35,11 +36,19 @@ public class Trie implements Serializable {
         return emits;
     }
 
-    public Emit findFirst(String text) {
+    public Emits findAll(CharSequence text) {
+        return findAll(text, false);
+    }
+
+    public Emits findAllIgnoreCase(CharSequence text) {
+        return findAll(text, true);
+    }
+
+    public Emit findFirst(CharSequence text, boolean ignoreCase) {
         State current = root;
         for (int i = 0; i < text.length(); i++) {
-            char c = caseInsensitive ? Character.toLowerCase(text.charAt(i)) : text.charAt(i);
-            current = nextState(current, c);
+            char c = text.charAt(i);
+            current = nextState(current, c, ignoreCase);
             Set<String> keywords = current.getKeywords();
             for (String keyword : keywords) {
                 return new Emit(i - keyword.length() + 1, i + 1, keyword);
@@ -48,24 +57,31 @@ public class Trie implements Serializable {
         return null;
     }
 
-    public boolean contains(String text) {
-        return findFirst(text) != null;
+    public Emit findFirst(CharSequence text) {
+        return findFirst(text, false);
     }
 
-    private State nextState(State current, Character character) {
-        State next = current.nextState(character);
+    public Emit findFirstIgnoreCase(CharSequence text) {
+        return findFirst(text, true);
+    }
+
+    private State nextState(State current, char c, boolean ignoreCase) {
+        State next = current.nextState(c, ignoreCase);
         while (next == null) {
             current = current.getFailure();
-            next = current.nextState(character);
+            next = current.nextState(c, ignoreCase);
         }
         return next;
     }
 
     private void init(Set<String> keywords) {
-        keywords.stream()
-                .filter(keyword -> keyword != null && !keyword.isEmpty())
-                .forEach(keyword -> root.addState(caseInsensitive ? keyword.toLowerCase() : keyword).addKeyword(keyword));
         Queue<State> queue = new LinkedList<>();
+        for (String keyword : keywords) {
+            if (keyword == null || keyword.isEmpty()) {
+                continue;
+            }
+            root.addState(keyword).addKeyword(keyword);
+        }
         for (State state : root.getStates()) {
             state.setFailure(root);
             queue.add(state);
@@ -86,22 +102,12 @@ public class Trie implements Serializable {
         }
     }
 
-    private void setCaseInsensitive(boolean caseInsensitive) {
-        this.caseInsensitive = caseInsensitive;
-    }
-
     public static Builder builder() {
         return new Builder();
     }
 
     public static class Builder {
-        private boolean caseInsensitive = false;
         private final Set<String> keywords = new HashSet<>();
-
-        public Builder caseInsensitive() {
-            this.caseInsensitive = true;
-            return this;
-        }
 
         public Builder addKeyword(String keyword) {
             if (keyword != null) {
@@ -125,10 +131,7 @@ public class Trie implements Serializable {
         }
 
         public Trie build() {
-            Trie trie = new Trie();
-            trie.setCaseInsensitive(caseInsensitive);
-            trie.init(keywords);
-            return trie;
+            return new Trie(keywords);
         }
     }
 }
