@@ -112,12 +112,8 @@ public class State implements Serializable {
         this.failure = failure;
     }
 
-    public Collection<State> getStates() {
-        return success != null ? success.values() : Collections.emptyList();
-    }
-
-    public Set<Character> getTransitions() {
-        return success != null ? success.keySet() : Collections.emptySet();
+    public Map<Character, State> getSuccess() {
+        return success != null ? success : Collections.emptyMap();
     }
 
     public int getDepth() {

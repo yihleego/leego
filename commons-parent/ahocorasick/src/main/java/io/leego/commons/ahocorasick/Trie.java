@@ -76,25 +76,24 @@ public class Trie implements Serializable {
                 root.addState(keyword).addKeyword(keyword);
             }
         }
-        Queue<State> queue = new LinkedList<>();
-        for (State state : root.getStates()) {
+        Queue<State> states = new LinkedList<>();
+        root.getSuccess().forEach((ignored, state) -> {
             state.setFailure(root);
-            queue.add(state);
-        }
-        while (!queue.isEmpty()) {
-            State state = queue.poll();
-            for (Character transition : state.getTransitions()) {
-                State next = state.nextState(transition);
-                queue.add(next);
+            states.add(state);
+        });
+        while (!states.isEmpty()) {
+            State state = states.poll();
+            state.getSuccess().forEach((c, next) -> {
                 State f = state.getFailure();
-                State fn = f.nextState(transition);
+                State fn = f.nextState(c);
                 while (fn == null) {
                     f = f.getFailure();
-                    fn = f.nextState(transition);
+                    fn = f.nextState(c);
                 }
                 next.setFailure(fn);
                 next.addKeywords(fn.getKeywords());
-            }
+                states.add(next);
+            });
         }
     }
 
