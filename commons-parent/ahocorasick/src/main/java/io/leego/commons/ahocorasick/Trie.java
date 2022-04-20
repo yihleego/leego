@@ -18,18 +18,16 @@ public class Trie implements Serializable {
     private final State root;
 
     public Trie(Set<String> keywords) {
-        this.root = new State();
+        this.root = new State(0);
         this.init(keywords);
     }
 
     public Emits findAll(CharSequence text, boolean ignoreCase) {
         Emits emits = new Emits(text);
-        State current = root;
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            current = nextState(current, c, ignoreCase);
-            Set<String> keywords = current.getKeywords();
-            for (String keyword : keywords) {
+        State state = root;
+        for (int i = 0, len = text.length(); i < len; i++) {
+            state = nextState(state, text.charAt(i), ignoreCase);
+            for (String keyword : state.getKeywords()) {
                 emits.add(new Emit(i - keyword.length() + 1, i + 1, keyword));
             }
         }
@@ -45,12 +43,10 @@ public class Trie implements Serializable {
     }
 
     public Emit findFirst(CharSequence text, boolean ignoreCase) {
-        State current = root;
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            current = nextState(current, c, ignoreCase);
-            Set<String> keywords = current.getKeywords();
-            for (String keyword : keywords) {
+        State state = root;
+        for (int i = 0, len = text.length(); i < len; i++) {
+            state = nextState(state, text.charAt(i), ignoreCase);
+            for (String keyword : state.getKeywords()) {
                 return new Emit(i - keyword.length() + 1, i + 1, keyword);
             }
         }
@@ -65,39 +61,39 @@ public class Trie implements Serializable {
         return findFirst(text, true);
     }
 
-    private State nextState(State current, char c, boolean ignoreCase) {
-        State next = current.nextState(c, ignoreCase);
+    private State nextState(State state, char c, boolean ignoreCase) {
+        State next = state.nextState(c, ignoreCase);
         while (next == null) {
-            current = current.getFailure();
-            next = current.nextState(c, ignoreCase);
+            state = state.getFailure();
+            next = state.nextState(c, ignoreCase);
         }
         return next;
     }
 
     private void init(Set<String> keywords) {
-        Queue<State> queue = new LinkedList<>();
         for (String keyword : keywords) {
-            if (keyword == null || keyword.isEmpty()) {
-                continue;
+            if (keyword != null && !keyword.isEmpty()) {
+                root.addState(keyword).addKeyword(keyword);
             }
-            root.addState(keyword).addKeyword(keyword);
         }
+        Queue<State> queue = new LinkedList<>();
         for (State state : root.getStates()) {
             state.setFailure(root);
             queue.add(state);
         }
         while (!queue.isEmpty()) {
-            State current = queue.poll();
-            for (Character transition : current.getTransitions()) {
-                State target = current.nextState(transition);
-                queue.add(target);
-                State failure = current.getFailure();
-                while (failure.nextState(transition) == null) {
-                    failure = failure.getFailure();
+            State state = queue.poll();
+            for (Character transition : state.getTransitions()) {
+                State next = state.nextState(transition);
+                queue.add(next);
+                State f = state.getFailure();
+                State fn = f.nextState(transition);
+                while (fn == null) {
+                    f = f.getFailure();
+                    fn = f.nextState(transition);
                 }
-                State nextFailure = failure.nextState(transition);
-                target.setFailure(nextFailure);
-                target.addKeywords(nextFailure.getKeywords());
+                next.setFailure(fn);
+                next.addKeywords(fn.getKeywords());
             }
         }
     }

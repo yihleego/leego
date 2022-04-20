@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * @author Leego Yih
  */
-public class Emit implements Comparable<Emit>, Serializable {
+public class Emit implements Serializable {
     @Serial
     private static final long serialVersionUID = -8879895979621579720L;
     /** The beginning index, inclusive. */
@@ -61,18 +61,6 @@ public class Emit implements Comparable<Emit>, Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(begin, end, keyword);
-    }
-
-    @Override
-    public int compareTo(Emit o) {
-        if (o == null) {
-            return -1;
-        }
-        if (this.begin != o.begin) {
-            return Integer.compare(this.begin, o.begin);
-        } else {
-            return Integer.compare(this.end, o.end);
-        }
     }
 
     @Override

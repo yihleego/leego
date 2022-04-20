@@ -20,10 +20,6 @@ public class State implements Serializable {
     private State failure;
     private Set<String> keywords;
 
-    public State() {
-        this(0);
-    }
-
     public State(int depth) {
         this.depth = depth;
         this.success = new HashMap<>();
