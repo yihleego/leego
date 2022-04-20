@@ -16,13 +16,12 @@ public class State implements Serializable {
     @Serial
     private static final long serialVersionUID = -6350361756888572415L;
     private final int depth;
-    private final Map<Character, State> success;
+    private Map<Character, State> success;
     private State failure;
     private Set<String> keywords;
 
     public State(int depth) {
         this.depth = depth;
-        this.success = new HashMap<>();
     }
 
     public State nextState(char c) {
@@ -30,9 +29,26 @@ public class State implements Serializable {
     }
 
     public State nextState(char c, boolean ignoreCase) {
-        State next = success.get(c);
+        State next = getState(c, ignoreCase);
         if (next != null) {
             return next;
+        } else if (depth == 0) {
+            return this;
+        }
+        return null;
+    }
+
+    public State getState(char c) {
+        return success != null ? success.get(c) : null;
+    }
+
+    public State getState(char c, boolean ignoreCase) {
+        if (success == null) {
+            return null;
+        }
+        State state = success.get(c);
+        if (state != null) {
+            return state;
         }
         if (ignoreCase) {
             char cc;
@@ -44,13 +60,10 @@ public class State implements Serializable {
                 cc = c;
             }
             if (c != cc) {
-                next = success.get(cc);
+                return success.get(cc);
             }
         }
-        if (next == null && depth == 0) {
-            next = this;
-        }
-        return next;
+        return null;
     }
 
     public State addState(CharSequence cs) {
@@ -62,6 +75,9 @@ public class State implements Serializable {
     }
 
     public State addState(char c) {
+        if (success == null) {
+            success = new HashMap<>();
+        }
         State state = success.get(c);
         if (state == null) {
             state = new State(depth + 1);
@@ -97,11 +113,11 @@ public class State implements Serializable {
     }
 
     public Collection<State> getStates() {
-        return success.values();
+        return success != null ? success.values() : Collections.emptyList();
     }
 
     public Set<Character> getTransitions() {
-        return success.keySet();
+        return success != null ? success.keySet() : Collections.emptySet();
     }
 
     public int getDepth() {
