@@ -89,7 +89,7 @@ public class Seq implements Serializable {
 
     /**
      * Returns a new {@code Seq} with the worker identifier,
-     * and the worker identifier must be between 0 and 1023..
+     * and the worker identifier must be between 0 and 1023.
      *
      * @param workerId the worker identifier.
      * @return a new {@code Seq}.
@@ -99,7 +99,7 @@ public class Seq implements Serializable {
     }
 
     /**
-     * Returns a new {@code Seq} with a random worker identifier,.
+     * Returns a new {@code Seq} with a random worker identifier.
      *
      * @return a new {@code Seq}.
      */
