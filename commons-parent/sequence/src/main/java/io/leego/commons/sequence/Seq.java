@@ -6,7 +6,7 @@ import java.security.SecureRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * A globally, 64 bits, unique identifier.
+ * A globally, 64 bits, thread-safe identifier. It can generate 4,194,303 numbers per second.
  * <pre>
  * ┌--------┬--------┬--------┬--------┬--------┬--------┬--------┬--------┐
  * |11111111|11111111|11111111|11111111|11111111|11111111|11111111|11111111| FORMAT: 64 bits
@@ -32,11 +32,11 @@ public class Seq implements Serializable {
     /**
      * Maximum worker-id is 1023.
      */
-    private static final int MAX_WORKER_ID = 0x03FF;
+    private static final int MAX_WORKER_ID = (1 << 10) - 1;
     /**
      * Maximum sequence is 4194303.
      */
-    private static final int MAX_SEQUENCE = 0x003F_FFFF;
+    private static final int MAX_SEQUENCE = (1 << 22) - 1;
     /**
      * Adder with initial random number.
      */
@@ -62,29 +62,10 @@ public class Seq implements Serializable {
      * @return a new {@code sequence}.
      */
     public long next() {
-        int t = (int) (System.currentTimeMillis() / 1000 - OFFSET);
-        int w = workerId;
-        int s = ADDER.getAndIncrement() & MAX_SEQUENCE;
-        return fromBytes(
-                (byte) (t >> 24),
-                (byte) (t >> 16),
-                (byte) (t >> 8),
-                (byte) (t),
-                (byte) (w >> 2),
-                (byte) (((w & 0b11) << 6) + ((s >> 16) & 0b11_1111)),
-                (byte) (s >> 8),
-                (byte) (s));
-    }
-
-    private long fromBytes(byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8) {
-        return (b1 & 0xFFL) << 56
-                | (b2 & 0xFFL) << 48
-                | (b3 & 0xFFL) << 40
-                | (b4 & 0xFFL) << 32
-                | (b5 & 0xFFL) << 24
-                | (b6 & 0xFF) << 16
-                | (b7 & 0xFF) << 8
-                | (b8 & 0xFF);
+        long t = System.currentTimeMillis() / 1000 - OFFSET;
+        long w = workerId;
+        int v = ADDER.getAndIncrement() & MAX_SEQUENCE;
+        return t << 32 | (w & 0x3FF) << 22 | v & 0x3FFFFF;
     }
 
     /**
