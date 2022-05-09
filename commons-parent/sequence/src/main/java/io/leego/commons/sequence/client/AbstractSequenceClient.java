@@ -1,6 +1,5 @@
 package io.leego.commons.sequence.client;
 
-import io.leego.commons.sequence.Segment;
 import io.leego.commons.sequence.provider.SequenceProvider;
 
 import java.util.Collection;
@@ -28,18 +27,6 @@ public abstract class AbstractSequenceClient implements SequenceClient {
 
     @Override
     public abstract <C extends Collection<Long>> C next(String key, int size, Supplier<C> collectionFactory);
-
-    protected <C extends Collection<Long>> C toCollection(Segment segment, Supplier<C> collectionFactory) {
-        long diff = segment.getEnd() - segment.getBegin();
-        if (diff < 0 || diff % segment.getIncrement() != 0) {
-            throw new IllegalArgumentException("Illegal values: begin=" + segment.getBegin() + ", end=" + segment.getEnd() + ", increment=" + segment.getIncrement());
-        }
-        C c = collectionFactory.get();
-        for (long i = segment.getBegin(); i <= segment.getEnd(); i += segment.getIncrement()) {
-            c.add(i);
-        }
-        return c;
-    }
 
     public SequenceProvider getSequenceProvider() {
         return sequenceProvider;

@@ -21,9 +21,10 @@ public class SimpleSequenceClient extends AbstractSequenceClient {
 
     @Override
     public <C extends Collection<Long>> C next(String key, int size, Supplier<C> collectionFactory) {
+        C collection = collectionFactory.get();
         if (size <= 0) {
-            return collectionFactory.get();
+            return collection;
         }
-        return toCollection(sequenceProvider.next(key, size), collectionFactory);
+        return sequenceProvider.next(key, size).toCollection(collection);
     }
 }

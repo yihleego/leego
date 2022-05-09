@@ -2,7 +2,9 @@ package io.leego.commons.sequence;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * @author Leego Yih
@@ -21,6 +23,21 @@ public class Segment implements Serializable {
         this.begin = begin;
         this.end = end;
         this.increment = increment;
+    }
+
+    public <C extends Collection<Long>> C toCollection(Supplier<C> collectionFactory) {
+        return toCollection(collectionFactory.get());
+    }
+
+    public <C extends Collection<Long>> C toCollection(C collection) {
+        long diff = end - begin;
+        if (diff < 0 || diff % increment != 0) {
+            throw new IllegalArgumentException("Illegal values: begin=" + begin + ", end=" + end + ", increment=" + increment);
+        }
+        for (long i = begin; i <= end; i += increment) {
+            collection.add(i);
+        }
+        return collection;
     }
 
     public long getBegin() {

@@ -62,35 +62,35 @@ public class CachedSequenceClient extends AbstractSequenceClient {
     @Override
     public Long next(String key) {
         CachedSeq seq = getSeq(key);
-        trySync(seq);
+        trySync(seq, 1);
         try {
             Long value = seq.poll();
             if (value != null) {
                 return value;
             }
-            if (seq.isPresent()) {
-                throw new SequenceObtainTimeoutException("Obtain sequence \"" + key + "\" timeout");
-            } else {
-                throw new SequenceNotFoundException("The sequence \"" + key + "\" was not found");
-            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new SequenceObtainErrorException(e);
+        }
+        if (seq.isPresent()) {
+            throw new SequenceObtainTimeoutException("Obtain sequence \"" + key + "\" timeout");
+        } else {
+            throw new SequenceNotFoundException("The sequence \"" + key + "\" was not found");
         }
     }
 
     @Override
     public <C extends Collection<Long>> C next(String key, int size, Supplier<C> collectionFactory) {
-        if (size <= 0) {
-            return collectionFactory.get();
-        }
         C collection = collectionFactory.get();
+        if (size <= 0) {
+            return collection;
+        }
         CachedSeq seq = getSeq(key);
-        trySync(seq);
+        trySync(seq, size);
         try {
             for (int i = 0; i < size; i++) {
                 if (seq.isEmpty()) {
-                    trySync(seq);
+                    trySync(seq, 1);
                 }
                 Long value = seq.poll();
                 if (value != null) {
@@ -110,16 +110,16 @@ public class CachedSequenceClient extends AbstractSequenceClient {
         return collection;
     }
 
-    public void load(final String key) {
+    public void load(String key) {
         CachedSeq seq = getSeq(key);
-        trySync(seq);
+        trySync(seq, cacheSize);
     }
 
-    protected CachedSeq getSeq(final String key) {
+    protected CachedSeq getSeq(String key) {
         return seqMap.computeIfAbsent(key, k -> new CachedSeq(k, cacheSize, factor, timeout.toMillis()));
     }
 
-    protected void trySync(final CachedSeq seq) {
+    protected void trySync(CachedSeq seq, int size) {
         if (!seq.isSyncable()) {
             return;
         }
@@ -133,7 +133,7 @@ public class CachedSequenceClient extends AbstractSequenceClient {
                 }
                 try {
                     seq.beginSyncing();
-                    Segment s = sequenceProvider.next(seq.getKey(), seq.getCapacity());
+                    Segment s = sequenceProvider.next(seq.getKey(), Math.max(seq.getCapacity(), size));
                     if (s != null) {
                         seq.ensurePresent();
                         for (long b = s.getBegin(), e = s.getEnd(), i = s.getIncrement(); b <= e; b += i) {
