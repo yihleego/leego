@@ -76,9 +76,8 @@ public class Segment implements Serializable {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof Segment))
+        if (!(o instanceof Segment segment))
             return false;
-        Segment segment = (Segment) o;
         return begin == segment.begin &&
                 end == segment.end &&
                 increment == segment.increment;

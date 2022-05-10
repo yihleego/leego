@@ -32,11 +32,6 @@
         </plugins>
     </build>
 
-    <properties>
-        <commons-standard.version>1.0.0</commons-standard.version>
-        <commons-json.version>1.0.0</commons-json.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>jakarta.validation</groupId>
@@ -49,12 +44,10 @@
         <dependency>
             <groupId>io.leego.commons</groupId>
             <artifactId>standard</artifactId>
-            <version>${commons-standard.version}</version>
         </dependency>
         <dependency>
             <groupId>io.leego.commons</groupId>
             <artifactId>json</artifactId>
-            <version>${commons-json.version}</version>
         </dependency>
     </dependencies>
 
