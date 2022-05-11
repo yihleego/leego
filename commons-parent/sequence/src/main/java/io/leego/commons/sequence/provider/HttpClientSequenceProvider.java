@@ -2,8 +2,8 @@ package io.leego.commons.sequence.provider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.leego.commons.sequence.Segment;
+import io.leego.commons.sequence.exception.SequenceErrorException;
 import io.leego.commons.sequence.exception.SequenceNotFoundException;
-import io.leego.commons.sequence.exception.SequenceObtainErrorException;
 
 import java.io.IOException;
 import java.net.URI;
@@ -63,10 +63,10 @@ public class HttpClientSequenceProvider implements SequenceProvider {
             } else if (response.statusCode() == 400) {
                 throw new SequenceNotFoundException("There is no sequence '" + key + "'");
             } else {
-                throw new SequenceObtainErrorException("Failed to obtain sequence '" + key + "'");
+                throw new SequenceErrorException("Failed to obtain sequence '" + key + "'");
             }
         } catch (IOException | InterruptedException e) {
-            throw new SequenceObtainErrorException("Failed to obtain sequence '" + key + "'", e);
+            throw new SequenceErrorException("Failed to obtain sequence '" + key + "'", e);
         }
     }
 
@@ -98,7 +98,7 @@ public class HttpClientSequenceProvider implements SequenceProvider {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             return response.statusCode() == 200;
         } catch (IOException | InterruptedException e) {
-            throw new SequenceObtainErrorException("Failed to create sequence '" + key + "'", e);
+            throw new SequenceErrorException("Failed to create sequence '" + key + "'", e);
         }
     }
 
@@ -129,7 +129,7 @@ public class HttpClientSequenceProvider implements SequenceProvider {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             return response.statusCode() == 200;
         } catch (IOException | InterruptedException e) {
-            throw new SequenceObtainErrorException("Failed to update sequence '" + key + "'", e);
+            throw new SequenceErrorException("Failed to update sequence '" + key + "'", e);
         }
     }
 

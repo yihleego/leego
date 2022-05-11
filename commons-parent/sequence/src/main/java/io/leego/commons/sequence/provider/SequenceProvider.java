@@ -43,4 +43,14 @@ public interface SequenceProvider {
      */
     boolean update(String key, Integer increment);
 
+    /**
+     * Creates a sequence with the value of 0 and the increment of 1.
+     *
+     * @param key the key of the sequence.
+     * @return <code>true</code> if the sequence is created.
+     */
+    default boolean create(String key) {
+        return this.create(key, 0L, 1);
+    }
+
 }

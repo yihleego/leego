@@ -1,9 +1,9 @@
 package io.leego.commons.sequence.client;
 
 import io.leego.commons.sequence.Segment;
+import io.leego.commons.sequence.exception.SequenceErrorException;
 import io.leego.commons.sequence.exception.SequenceNotFoundException;
-import io.leego.commons.sequence.exception.SequenceObtainErrorException;
-import io.leego.commons.sequence.exception.SequenceObtainTimeoutException;
+import io.leego.commons.sequence.exception.SequenceTimeoutException;
 import io.leego.commons.sequence.provider.SequenceProvider;
 
 import java.time.Duration;
@@ -70,10 +70,10 @@ public class CachedSequenceClient extends AbstractSequenceClient {
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new SequenceObtainErrorException(e);
+            throw new SequenceErrorException(e);
         }
         if (seq.isPresent()) {
-            throw new SequenceObtainTimeoutException("Obtain sequence \"" + key + "\" timeout");
+            throw new SequenceTimeoutException("Obtain sequence \"" + key + "\" timeout");
         } else {
             throw new SequenceNotFoundException("The sequence \"" + key + "\" was not found");
         }
@@ -97,7 +97,7 @@ public class CachedSequenceClient extends AbstractSequenceClient {
                     collection.add(value);
                 } else {
                     if (seq.isPresent()) {
-                        throw new SequenceObtainTimeoutException("Obtain sequence \"" + key + "\" timeout");
+                        throw new SequenceTimeoutException("Obtain sequence \"" + key + "\" timeout");
                     } else {
                         throw new SequenceNotFoundException("The sequence \"" + key + "\" was not found");
                     }
@@ -105,7 +105,7 @@ public class CachedSequenceClient extends AbstractSequenceClient {
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new SequenceObtainErrorException(e);
+            throw new SequenceErrorException(e);
         }
         return collection;
     }
