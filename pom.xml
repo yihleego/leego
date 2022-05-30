@@ -40,10 +40,10 @@
         <minio.version>8.4.1</minio.version>
         <okhttp.version>4.9.3</okhttp.version>
         <guava.version>31.1-jre</guava.version>
-        <apache-commons-text.version>1.9</apache-commons-text.version>
-        <leego-commons-standard.version>1.0.0</leego-commons-standard.version>
-        <leego-commons-json.version>1.0.0</leego-commons-json.version>
-        <leego-commons-sequence.version>1.0.0</leego-commons-sequence.version>
+        <apache-text.version>1.9</apache-text.version>
+        <leego-standard.version>1.0.0</leego-standard.version>
+        <leego-json.version>1.0.0</leego-json.version>
+        <leego-sequence.version>1.0.0</leego-sequence.version>
     </properties>
 
     <build>
@@ -226,22 +226,22 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-text</artifactId>
-                <version>${apache-commons-text.version}</version>
+                <version>${apache-text.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.leego.commons</groupId>
                 <artifactId>standard</artifactId>
-                <version>${leego-commons-standard.version}</version>
+                <version>${leego-standard.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.leego.commons</groupId>
                 <artifactId>json</artifactId>
-                <version>${leego-commons-json.version}</version>
+                <version>${leego-json.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.leego.commons</groupId>
                 <artifactId>sequence</artifactId>
-                <version>${leego-commons-sequence.version}</version>
+                <version>${leego-sequence.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
