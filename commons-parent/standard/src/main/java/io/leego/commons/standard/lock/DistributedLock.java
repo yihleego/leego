@@ -5,7 +5,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author Leego Yih
@@ -16,7 +15,6 @@ public class DistributedLock {
     private final String key;
     private final String value;
     private final long lockout;
-    private final AtomicLong duration;
     private ScheduledFuture<?> future;
 
     public DistributedLock(ScheduledExecutorService executor, DistributedAccessor accessor, String key) {
@@ -29,7 +27,6 @@ public class DistributedLock {
         this.key = key;
         this.value = UUID.randomUUID().toString();
         this.lockout = lockout;
-        this.duration = new AtomicLong(0);
     }
 
     /**
@@ -119,11 +116,16 @@ public class DistributedLock {
         if (!locked) {
             return false;
         }
-        this.future = executor.scheduleAtFixedRate(() -> {
-            if (timeout < 0 || duration.addAndGet(lockout) < timeout) {
-                accessor.expire(key, lockout << 1, TimeUnit.MILLISECONDS);
+        long period = Math.max(1, lockout >>> 1);
+        this.future = executor.scheduleAtFixedRate(new Runnable() {
+            long duration = 0;
+            @Override
+            public void run() {
+                if (timeout < 0 || (duration += period) < timeout) {
+                    accessor.expire(key, lockout, TimeUnit.MILLISECONDS);
+                }
             }
-        }, lockout, lockout, TimeUnit.MILLISECONDS);
+        }, period, period, TimeUnit.MILLISECONDS);
         return true;
     }
 
@@ -133,6 +135,7 @@ public class DistributedLock {
     public void unlock() {
         if (future != null) {
             future.cancel(true);
+            future = null;
         }
         accessor.delete(key, value);
     }
