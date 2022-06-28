@@ -1,6 +1,5 @@
 package io.leego.commons.standard.lock;
 
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
@@ -10,10 +9,6 @@ public class DistributedLockFactory {
     private final ScheduledExecutorService executor;
     private final DistributedAccessor accessor;
     private final String lockPrefix;
-
-    public DistributedLockFactory(DistributedAccessor accessor, String lockPrefix) {
-        this(Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()), accessor, lockPrefix);
-    }
 
     public DistributedLockFactory(ScheduledExecutorService executor, DistributedAccessor accessor, String lockPrefix) {
         this.executor = executor;

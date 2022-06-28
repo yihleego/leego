@@ -15,18 +15,25 @@ public class DistributedLock {
     private final String key;
     private final String value;
     private final long lockout;
+    private final int retries;
+    private long expired;
     private ScheduledFuture<?> future;
 
     public DistributedLock(ScheduledExecutorService executor, DistributedAccessor accessor, String key) {
-        this(executor, accessor, key, 10 * 1000);
+        this(executor, accessor, key, 5 * 1000, -1);
     }
 
     public DistributedLock(ScheduledExecutorService executor, DistributedAccessor accessor, String key, long lockout) {
+        this(executor, accessor, key, lockout, -1);
+    }
+
+    public DistributedLock(ScheduledExecutorService executor, DistributedAccessor accessor, String key, long lockout, int retries) {
         this.executor = executor;
         this.accessor = accessor;
         this.key = key;
         this.value = UUID.randomUUID().toString();
         this.lockout = lockout;
+        this.retries = retries;
     }
 
     /**
@@ -48,9 +55,15 @@ public class DistributedLock {
      * lock has been acquired.
      */
     public void lock(long timeout) throws InterruptedException {
-        while (!tryLock(timeout)) {
+        int count = 0;
+        while (retries < 0 || count < retries) {
+            if (tryLock(timeout)) {
+                return;
+            }
             TimeUnit.MILLISECONDS.sleep(ThreadLocalRandom.current().nextInt(10, 100));
+            count++;
         }
+        throw new InterruptedException();
     }
 
     /**
@@ -116,14 +129,11 @@ public class DistributedLock {
         if (!locked) {
             return false;
         }
-        long period = Math.max(1, lockout >>> 1);
-        this.future = executor.scheduleAtFixedRate(new Runnable() {
-            long duration = 0;
-            @Override
-            public void run() {
-                if (timeout < 0 || (duration += period) < timeout) {
-                    accessor.expire(key, lockout, TimeUnit.MILLISECONDS);
-                }
+        long period = Math.max(100, lockout >>> 1);
+        expired = timeout < 0 ? -1 : System.currentTimeMillis() + timeout;
+        future = executor.scheduleAtFixedRate(() -> {
+            if (expired == -1 || expired > System.currentTimeMillis()) {
+                accessor.expire(key, lockout, TimeUnit.MILLISECONDS);
             }
         }, period, period, TimeUnit.MILLISECONDS);
         return true;
