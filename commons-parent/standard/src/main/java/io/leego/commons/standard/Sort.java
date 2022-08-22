@@ -65,7 +65,7 @@ public class Sort implements Serializable {
     }
 
     public static Sort parse(String value) {
-        if (value == null || value.isEmpty()) {
+        if (value == null || value.isBlank()) {
             return Sort.unsorted();
         }
         if (value.indexOf(',') > 0) {
