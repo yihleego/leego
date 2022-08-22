@@ -20,6 +20,10 @@ public class Order implements Serializable {
     public Order() {
     }
 
+    public Order(String property) {
+        this(DEFAULT_DIRECTION, property, DEFAULT_IGNORE_CASE);
+    }
+
     public Order(Direction direction, String property) {
         this(direction, property, DEFAULT_IGNORE_CASE);
     }
