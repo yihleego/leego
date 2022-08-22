@@ -3,7 +3,7 @@ package io.leego.commons.standard;
 /**
  * @author Leego Yih
  */
-public interface Pageable {
+public interface Pageable extends Sortable {
 
     /** Returns the page to be returned, zero-based page index, must be greater than zero. */
     Integer getPage();

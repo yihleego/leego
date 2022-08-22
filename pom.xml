@@ -42,9 +42,6 @@
         <okhttp.version>4.10.0</okhttp.version>
         <guava.version>31.1-jre</guava.version>
         <apache-text.version>1.9</apache-text.version>
-        <leego-standard.version>1.0.0</leego-standard.version>
-        <leego-json.version>1.0.0</leego-json.version>
-        <leego-sequence.version>1.0.0</leego-sequence.version>
     </properties>
 
     <build>
@@ -247,17 +244,17 @@
             <dependency>
                 <groupId>io.leego.commons</groupId>
                 <artifactId>standard</artifactId>
-                <version>${leego-standard.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.leego.commons</groupId>
                 <artifactId>json</artifactId>
-                <version>${leego-json.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.leego.commons</groupId>
                 <artifactId>sequence</artifactId>
-                <version>${leego-sequence.version}</version>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
