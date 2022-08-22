@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * @author Leego Yih
  */
-public class PageRequest extends SortRequest implements Pageable, Sortable, Serializable {
+public class PageRequest extends SortRequest implements Pageable, Serializable {
     @Serial
     private static final long serialVersionUID = -542101357510265940L;
     /** One-based page index. */
