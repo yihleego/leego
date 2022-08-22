@@ -5,14 +5,14 @@ import java.io.Serial;
 /**
  * @author Leego Yih
  */
-public class JSONException extends RuntimeException {
+public class JsonException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 5266059128607574763L;
 
     /**
      * Constructs a new json exception with no detail message.
      */
-    public JSONException() {
+    public JsonException() {
         super();
     }
 
@@ -21,7 +21,7 @@ public class JSONException extends RuntimeException {
      *
      * @param message the detail message.
      */
-    public JSONException(String message) {
+    public JsonException(String message) {
         super(message);
     }
 
@@ -31,7 +31,7 @@ public class JSONException extends RuntimeException {
      * @param message the detail message.
      * @param cause   the cause.
      */
-    public JSONException(String message, Throwable cause) {
+    public JsonException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -40,8 +40,7 @@ public class JSONException extends RuntimeException {
      *
      * @param cause the cause.
      */
-    public JSONException(Throwable cause) {
+    public JsonException(Throwable cause) {
         super(cause);
     }
-
 }

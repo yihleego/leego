@@ -7,8 +7,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.type.SimpleType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
@@ -16,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,67 +24,48 @@ import java.util.Set;
 /**
  * @author Leego Yih
  */
-public final class JSONUtils {
-    private static final ObjectMapper mapper;
-    private static final ObjectMapper nonNullMapper;
+public final class JsonUtils {
+    private static final JsonMapper mapper;
 
     static {
-        mapper = new ObjectMapper()
-                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        mapper = JsonMapper.builder()
+                .enable(MapperFeature.USE_GETTERS_AS_SETTERS)
+                .enable(MapperFeature.REQUIRE_SETTERS_FOR_GETTERS)
                 .enable(JsonParser.Feature.ALLOW_SINGLE_QUOTES)
                 .enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES)
-                .enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN);
-        nonNullMapper = mapper.copy()
-                .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+                .enable(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN)
+                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .serializationInclusion(JsonInclude.Include.NON_NULL)
+                .build();
     }
 
-    private JSONUtils() {
+    private JsonUtils() {
     }
 
-    public static ObjectMapper getMapper() {
+    public static JsonMapper getMapper() {
         return mapper.copy();
     }
 
-    public static ObjectMapper getNonNullMapper() {
-        return nonNullMapper.copy();
-    }
-
-    public static String toJSONString(Object value) {
-        return toJSONString(mapper, value);
-    }
-
-    public static String toJSONString(Object value, boolean includeNonNull) {
-        return toJSONString(includeNonNull ? nonNullMapper : mapper, value);
-    }
-
-    public static String toJSONString(ObjectMapper mapper, Object value) {
+    public static String toString(Object value) {
         if (value == null) {
             return null;
         }
         try {
             return mapper.writeValueAsString(value);
         } catch (JsonProcessingException e) {
-            throw new JSONException(e);
+            throw new JsonException(e);
         }
     }
 
-    public static byte[] toJSONBytes(Object value) {
-        return toJSONBytes(mapper, value);
-    }
-
-    public static byte[] toJSONBytes(Object value, boolean includeNonNull) {
-        return toJSONBytes(includeNonNull ? nonNullMapper : mapper, value);
-    }
-
-    public static byte[] toJSONBytes(ObjectMapper mapper, Object value) {
+    public static byte[] toBytes(Object value) {
         if (value == null) {
             return null;
         }
         try {
             return mapper.writeValueAsBytes(value);
         } catch (JsonProcessingException e) {
-            throw new JSONException(e);
+            throw new JsonException(e);
         }
     }
 
@@ -95,7 +76,7 @@ public final class JSONUtils {
         try {
             return mapper.readValue(json, type);
         } catch (IOException e) {
-            throw new JSONException(e);
+            throw new JsonException(e);
         }
     }
 
@@ -106,7 +87,7 @@ public final class JSONUtils {
         try {
             return mapper.readValue(json, type);
         } catch (IOException e) {
-            throw new JSONException(e);
+            throw new JsonException(e);
         }
     }
 
@@ -117,7 +98,7 @@ public final class JSONUtils {
         try {
             return mapper.readValue(json, ref);
         } catch (IOException e) {
-            throw new JSONException(e);
+            throw new JsonException(e);
         }
     }
 
@@ -128,7 +109,7 @@ public final class JSONUtils {
         try {
             return mapper.readValue(bytes, type);
         } catch (IOException e) {
-            throw new JSONException(e);
+            throw new JsonException(e);
         }
     }
 
@@ -139,7 +120,7 @@ public final class JSONUtils {
         try {
             return mapper.readValue(bytes, type);
         } catch (IOException e) {
-            throw new JSONException(e);
+            throw new JsonException(e);
         }
     }
 
@@ -150,7 +131,7 @@ public final class JSONUtils {
         try {
             return mapper.readValue(bytes, ref);
         } catch (IOException e) {
-            throw new JSONException(e);
+            throw new JsonException(e);
         }
     }
 
@@ -161,7 +142,7 @@ public final class JSONUtils {
         try {
             return mapper.readValue(inputStream, type);
         } catch (IOException e) {
-            throw new JSONException(e);
+            throw new JsonException(e);
         }
     }
 
@@ -172,7 +153,7 @@ public final class JSONUtils {
         try {
             return mapper.readValue(inputStream, type);
         } catch (IOException e) {
-            throw new JSONException(e);
+            throw new JsonException(e);
         }
     }
 
@@ -183,116 +164,44 @@ public final class JSONUtils {
         try {
             return mapper.readValue(inputStream, ref);
         } catch (IOException e) {
-            throw new JSONException(e);
+            throw new JsonException(e);
         }
     }
 
     public static <E> List<E> parseList(String json, Class<E> type) {
-        if (json == null) {
-            return null;
-        }
-        try {
-            JavaType javaType = mapper.getTypeFactory().constructParametricType(List.class, type);
-            return mapper.readValue(json, javaType);
-        } catch (IOException e) {
-            throw new JSONException(e);
-        }
+        return parse(json, mapper.getTypeFactory().constructParametricType(List.class, type));
     }
 
     public static <E> List<E> parseList(byte[] bytes, Class<E> type) {
-        if (bytes == null) {
-            return Collections.emptyList();
-        }
-        try {
-            JavaType javaType = mapper.getTypeFactory().constructParametricType(List.class, type);
-            return mapper.readValue(bytes, javaType);
-        } catch (IOException e) {
-            throw new JSONException(e);
-        }
+        return parse(bytes, mapper.getTypeFactory().constructParametricType(List.class, type));
     }
 
     public static <E> List<E> parseList(InputStream inputStream, Class<E> type) {
-        if (inputStream == null) {
-            return Collections.emptyList();
-        }
-        try {
-            JavaType javaType = mapper.getTypeFactory().constructParametricType(List.class, type);
-            return mapper.readValue(inputStream, javaType);
-        } catch (IOException e) {
-            throw new JSONException(e);
-        }
+        return parse(inputStream, mapper.getTypeFactory().constructParametricType(List.class, type));
     }
 
     public static <E> Set<E> parseSet(String json, Class<E> type) {
-        if (json == null) {
-            return null;
-        }
-        try {
-            JavaType javaType = mapper.getTypeFactory().constructParametricType(Set.class, type);
-            return mapper.readValue(json, javaType);
-        } catch (IOException e) {
-            throw new JSONException(e);
-        }
+        return parse(json, mapper.getTypeFactory().constructParametricType(Set.class, type));
     }
 
     public static <E> Set<E> parseSet(byte[] bytes, Class<E> type) {
-        if (bytes == null) {
-            return Collections.emptySet();
-        }
-        try {
-            JavaType javaType = mapper.getTypeFactory().constructParametricType(Set.class, type);
-            return mapper.readValue(bytes, javaType);
-        } catch (IOException e) {
-            throw new JSONException(e);
-        }
+        return parse(bytes, mapper.getTypeFactory().constructParametricType(Set.class, type));
     }
 
     public static <E> Set<E> parseSet(InputStream inputStream, Class<E> type) {
-        if (inputStream == null) {
-            return Collections.emptySet();
-        }
-        try {
-            JavaType javaType = mapper.getTypeFactory().constructParametricType(Set.class, type);
-            return mapper.readValue(inputStream, javaType);
-        } catch (IOException e) {
-            throw new JSONException(e);
-        }
+        return parse(inputStream, mapper.getTypeFactory().constructParametricType(Set.class, type));
     }
 
     public static <K, V> Map<K, V> parseMap(String json, Class<K> keyType, Class<V> valueType) {
-        if (json == null) {
-            return null;
-        }
-        try {
-            JavaType javaType = mapper.getTypeFactory().constructParametricType(Map.class, keyType, valueType);
-            return mapper.readValue(json, javaType);
-        } catch (IOException e) {
-            throw new JSONException(e);
-        }
+        return parse(json, mapper.getTypeFactory().constructParametricType(Map.class, keyType, valueType));
     }
 
     public static <K, V> Map<K, V> parseMap(byte[] bytes, Class<K> keyType, Class<V> valueType) {
-        if (bytes == null) {
-            return null;
-        }
-        try {
-            JavaType javaType = mapper.getTypeFactory().constructParametricType(Map.class, keyType, valueType);
-            return mapper.readValue(bytes, javaType);
-        } catch (IOException e) {
-            throw new JSONException(e);
-        }
+        return parse(bytes, mapper.getTypeFactory().constructParametricType(Map.class, keyType, valueType));
     }
 
     public static <K, V> Map<K, V> parseMap(InputStream inputStream, Class<K> keyType, Class<V> valueType) {
-        if (inputStream == null) {
-            return null;
-        }
-        try {
-            JavaType javaType = mapper.getTypeFactory().constructParametricType(Map.class, keyType, valueType);
-            return mapper.readValue(inputStream, javaType);
-        } catch (IOException e) {
-            throw new JSONException(e);
-        }
+        return parse(inputStream, mapper.getTypeFactory().constructParametricType(Map.class, keyType, valueType));
     }
 
     public static <T> T convert(Object source, Class<T> type) throws IllegalArgumentException {
@@ -310,15 +219,14 @@ public final class JSONUtils {
     public static JavaType toJavaType(Type type) {
         if (type instanceof ParameterizedType) {
             Type[] actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
-            Class<?> rowClass = (Class<?>) ((ParameterizedType) type).getRawType();
+            Class<?> rawType = (Class<?>) ((ParameterizedType) type).getRawType();
             JavaType[] javaTypes = new JavaType[actualTypeArguments.length];
-            for (int i = 0; i < actualTypeArguments.length; i++) {
+            for (int i = 0; i < javaTypes.length; i++) {
                 javaTypes[i] = toJavaType(actualTypeArguments[i]);
             }
-            return TypeFactory.defaultInstance().constructParametricType(rowClass, javaTypes);
+            return toJavaType(rawType, javaTypes);
         } else {
-            Class<?> clazz = (Class<?>) type;
-            return TypeFactory.defaultInstance().constructParametricType(clazz, new JavaType[0]);
+            return toJavaType((Class<?>) type);
         }
     }
 
