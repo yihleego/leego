@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.type.SimpleType;
@@ -26,6 +27,7 @@ import java.util.Set;
  */
 public final class JsonUtils {
     private static final JsonMapper mapper;
+    private static final ObjectWriter prettyWriter;
 
     static {
         mapper = JsonMapper.builder()
@@ -38,6 +40,7 @@ public final class JsonUtils {
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .serializationInclusion(JsonInclude.Include.NON_NULL)
                 .build();
+        prettyWriter = mapper.writerWithDefaultPrettyPrinter();
     }
 
     private JsonUtils() {
@@ -64,6 +67,28 @@ public final class JsonUtils {
         }
         try {
             return mapper.writeValueAsBytes(value);
+        } catch (JsonProcessingException e) {
+            throw new JsonException(e);
+        }
+    }
+
+    public static String toPrettyString(Object value) {
+        if (value == null) {
+            return null;
+        }
+        try {
+            return prettyWriter.writeValueAsString(value);
+        } catch (JsonProcessingException e) {
+            throw new JsonException(e);
+        }
+    }
+
+    public static byte[] toPrettyBytes(Object value) {
+        if (value == null) {
+            return null;
+        }
+        try {
+            return prettyWriter.writeValueAsBytes(value);
         } catch (JsonProcessingException e) {
             throw new JsonException(e);
         }
