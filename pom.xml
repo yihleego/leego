@@ -42,6 +42,7 @@
         <okhttp.version>4.10.0</okhttp.version>
         <guava.version>31.1-jre</guava.version>
         <apache-text.version>1.9</apache-text.version>
+        <jmh.version>1.35</jmh.version>
     </properties>
 
     <build>
@@ -240,6 +241,16 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-text</artifactId>
                 <version>${apache-text.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjdk.jmh</groupId>
+                <artifactId>jmh-core</artifactId>
+                <version>${jmh.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjdk.jmh</groupId>
+                <artifactId>jmh-generator-annprocess</artifactId>
+                <version>${jmh.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.leego.commons</groupId>
