@@ -178,6 +178,12 @@
                 <version>${querydsl.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-jpa-codegen</artifactId>
+                <classifier>jakarta</classifier>
+                <version>${querydsl.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
                 <version>${netty.version}</version>
