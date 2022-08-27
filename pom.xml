@@ -15,6 +15,7 @@
         <module>commons-parent</module>
         <module>project-parent</module>
         <module>spring-boot-parent</module>
+        <module>spring-cloud-parent</module>
     </modules>
 
     <properties>
@@ -174,12 +175,6 @@
             <dependency>
                 <groupId>com.querydsl</groupId>
                 <artifactId>querydsl-apt</artifactId>
-                <classifier>jakarta</classifier>
-                <version>${querydsl.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.querydsl</groupId>
-                <artifactId>querydsl-jpa-codegen</artifactId>
                 <classifier>jakarta</classifier>
                 <version>${querydsl.version}</version>
             </dependency>
