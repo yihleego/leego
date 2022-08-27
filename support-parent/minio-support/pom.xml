@@ -7,13 +7,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>io.leego.project</groupId>
-        <artifactId>project-parent</artifactId>
+        <groupId>io.leego.support</groupId>
+        <artifactId>support-parent</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>support-parent</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>minio-support</artifactId>
+    <version>1.0.0</version>
 
     <build>
         <plugins>
@@ -30,18 +30,25 @@
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
     </build>
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure-processor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
         </dependency>
     </dependencies>
 

@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * @author Leego Yih
  */
-public class AbstractSingletonBeanFactory<B, K> implements SingletonBeanFactory<B, K> {
+public abstract class AbstractSingletonBeanFactory<B, K> implements SingletonBeanFactory<B, K> {
     protected final Map<String, B> beans;
 
     public AbstractSingletonBeanFactory(Map<String, B> beans) {
