@@ -53,7 +53,9 @@ public interface DeletableRepository<T extends BaseEntity<ID>, ID extends Serial
                 ids.add(entity.getId());
             }
         }
-        this.deleteAllById(ids);
+        if (!ids.isEmpty()) {
+            this.deleteAllById(ids);
+        }
     }
 
     @Override
