@@ -1,10 +1,10 @@
 package io.leego.support.querydsl.repository;
 
 import com.querydsl.core.types.Predicate;
-import io.leego.commons.standard.Order;
-import io.leego.commons.standard.Page;
-import io.leego.commons.standard.Pageable;
-import io.leego.commons.standard.Sortable;
+import io.leego.commons.Order;
+import io.leego.commons.Page;
+import io.leego.commons.Pageable;
+import io.leego.commons.Sortable;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
