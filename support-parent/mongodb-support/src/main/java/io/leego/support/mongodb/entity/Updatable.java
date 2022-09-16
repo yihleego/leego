@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 /**
  * @author Leego Yih
  */
-public interface Updatable<ID> {
+public interface Updatable<ID> extends Entity<ID> {
 
     LocalDateTime getUpdatedTime();
 

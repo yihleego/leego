@@ -1,13 +1,11 @@
 package io.leego.support.jpa.entity;
 
-import org.springframework.data.domain.Persistable;
-
 import java.time.LocalDateTime;
 
 /**
  * @author Leego Yih
  */
-public interface Updatable<ID> extends Persistable<ID> {
+public interface Updatable<ID> extends Entity<ID> {
 
     LocalDateTime getUpdatedTime();
 

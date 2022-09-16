@@ -26,8 +26,10 @@ public class MongoGarbageCollectionEventListener extends AbstractMongoEventListe
         if (event.getType() == null || CollectionUtils.isEmpty(event.getDocument())) {
             return;
         }
+        // Query the objects to be deleted
         List<Object> objects = mongoTemplate.find(new BasicQuery(event.getDocument()), event.getType());
         if (!CollectionUtils.isEmpty(objects)) {
+            // Collect the garbage
             String type = event.getCollectionName();
             LocalDateTime now = LocalDateTime.now();
             mongoTemplate.insertAll(objects.stream()

@@ -9,7 +9,6 @@ import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.CreatedDate;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -21,7 +20,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @FieldNameConstants
 @MappedSuperclass
-public abstract class DeletableEntity<ID extends Serializable> extends BaseEntity<ID> implements Creatable<ID>, Deletable<ID> {
+public abstract class DeletableEntity<ID> extends BaseEntity<ID> implements Creatable<ID>, Deletable<ID> {
     @CreatedDate
     @Column(nullable = false, updatable = false)
     protected LocalDateTime createdTime;
