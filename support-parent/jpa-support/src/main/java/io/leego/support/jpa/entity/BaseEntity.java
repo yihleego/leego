@@ -15,6 +15,7 @@ import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.util.ObjectUtils;
 
@@ -32,7 +33,7 @@ import java.util.Set;
 @FieldNameConstants
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseEntity<ID> implements Entity<ID> {
+public abstract class BaseEntity<ID> implements Entity<ID>, Persistable<ID> {
     public static final Set<String> IGNORED = Set.of("class", "new", "_new", "id", "createdTime", "updatedTime", "deleted", "deletedTime");
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
