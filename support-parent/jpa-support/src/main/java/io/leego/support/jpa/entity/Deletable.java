@@ -1,23 +1,20 @@
 package io.leego.support.jpa.entity;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * @author Leego Yih
  */
-public interface Deletable<ID> extends Entity<ID> {
+public interface Deletable<DEL> {
 
-    ID getDeleted();
+    DEL getDeleted();
 
-    void setDeleted(ID deleted);
+    void setDeleted(DEL deleted);
 
     LocalDateTime getDeletedTime();
 
     void setDeletedTime(LocalDateTime deletedTime);
 
-    default boolean isDeleted() {
-        return Objects.equals(getDeleted(), getId());
-    }
+    boolean isDeleted();
 
 }

@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventLis
 import org.springframework.data.mongodb.core.mapping.event.BeforeDeleteEvent;
 import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,18 +24,20 @@ public class MongoGarbageCollectionEventListener extends AbstractMongoEventListe
 
     @Override
     public void onBeforeDelete(BeforeDeleteEvent<Object> event) {
-        if (event.getType() == null || CollectionUtils.isEmpty(event.getDocument())) {
+        if (event.getType() == null || event.getDocument() == null) {
             return;
         }
+        String collectionName = StringUtils.hasText(event.getCollectionName())
+                ? event.getCollectionName()
+                : mongoTemplate.getCollectionName(event.getType());
         // Query the objects to be deleted
-        List<Object> objects = mongoTemplate.find(new BasicQuery(event.getDocument()), event.getType());
+        List<Object> objects = mongoTemplate.find(new BasicQuery(event.getDocument()), event.getType(), collectionName);
         if (!CollectionUtils.isEmpty(objects)) {
             // Collect the garbage
-            String type = event.getCollectionName();
             LocalDateTime now = LocalDateTime.now();
-            mongoTemplate.insertAll(objects.stream()
-                    .map(o -> new Garbage(type, o, now))
-                    .collect(Collectors.toList()));
+            mongoTemplate.insert(objects.stream()
+                    .map(o -> new Garbage(collectionName, o, now))
+                    .collect(Collectors.toList()), Garbage.class);
         }
     }
 }

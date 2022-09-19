@@ -1,6 +1,8 @@
 package io.leego.support.mongodb.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,6 +16,8 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Document("garbage")
 public class Garbage {
     @MongoId(FieldType.OBJECT_ID)
@@ -22,9 +26,6 @@ public class Garbage {
     private Object data;
     @Indexed
     private LocalDateTime collectedTime;
-
-    public Garbage() {
-    }
 
     public Garbage(String type, Object data, LocalDateTime collectedTime) {
         this.type = type;

@@ -92,6 +92,16 @@ public class MinioManagerImpl implements MinioManager {
     }
 
     @Override
+    public void ensureAllBuckets() throws Exception {
+        for (Map.Entry<String, String> entry : buckets.entrySet()) {
+            String bucket = entry.getValue();
+            if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build())) {
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
+            }
+        }
+    }
+
+    @Override
     public String getBucketPolicy(String bucket) throws Exception {
         return minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(bucket).build());
     }

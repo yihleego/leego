@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @FieldNameConstants
-public abstract class UpdatableEntity<ID> extends BaseEntity<ID> implements Creatable<ID>, Updatable<ID> {
+public abstract class UpdatableEntity<ID> extends BaseEntity<ID> implements Creatable, Updatable {
     @CreatedDate
     protected LocalDateTime createdTime;
     @LastModifiedDate

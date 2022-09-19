@@ -28,6 +28,8 @@ public interface MinioManager {
 
     void ensureBucket(String bucket) throws Exception;
 
+    void ensureAllBuckets() throws Exception;
+
     String getBucketPolicy(String bucket) throws Exception;
 
     void put(String bucket, String key, InputStream inputStream) throws Exception;

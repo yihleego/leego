@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 /**
  * @author Leego Yih
  */
-public interface Creatable<ID> extends Entity<ID> {
+public interface Creatable {
 
     LocalDateTime getCreatedTime();
 

@@ -10,6 +10,7 @@ import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author Leego Yih
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @FieldNameConstants
 @MappedSuperclass
-public abstract class DeletableEntity<ID> extends BaseEntity<ID> implements Creatable<ID>, Deletable<ID> {
+public abstract class DeletableEntity<ID> extends BaseEntity<ID> implements Creatable, Deletable<ID> {
     @CreatedDate
     @Column(nullable = false, updatable = false)
     protected LocalDateTime createdTime;
@@ -28,4 +29,15 @@ public abstract class DeletableEntity<ID> extends BaseEntity<ID> implements Crea
     protected ID deleted;
     @Column(insertable = false, updatable = false)
     protected LocalDateTime deletedTime;
+
+    /**
+     * Returns <code>true</code> if it has been deleted,
+     * that is, when the <code>deleted</code> is equal to the <code>id</code>.
+     *
+     * @see io.leego.support.jpa.repository.DeletableRepository
+     */
+    @Override
+    public boolean isDeleted() {
+        return Objects.equals(getDeleted(), getId());
+    }
 }
