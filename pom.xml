@@ -48,6 +48,12 @@
         <guava.version>31.1-jre</guava.version>
         <apache-text.version>1.9</apache-text.version>
         <jmh.version>1.35</jmh.version>
+        <!-- Internal dependencies -->
+        <standard.version>1.0.0</standard.version>
+        <jpa-support.version>1.0.0</jpa-support.version>
+        <minio-support.version>1.0.0</minio-support.version>
+        <mongodb-support.version>1.0.0</mongodb-support.version>
+        <querydsl-support.version>1.0.0</querydsl-support.version>
     </properties>
 
     <build>
@@ -257,27 +263,27 @@
             <dependency>
                 <groupId>io.leego.commons</groupId>
                 <artifactId>standard</artifactId>
-                <version>1.0.0</version>
+                <version>${standard.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.leego.support</groupId>
                 <artifactId>jpa-support</artifactId>
-                <version>1.0.0</version>
+                <version>${jpa-support.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.leego.support</groupId>
                 <artifactId>minio-support</artifactId>
-                <version>1.0.0</version>
+                <version>${minio-support.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.leego.support</groupId>
                 <artifactId>mongodb-support</artifactId>
-                <version>1.0.0</version>
+                <version>${mongodb-support.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.leego.support</groupId>
                 <artifactId>querydsl-support</artifactId>
-                <version>1.0.0</version>
+                <version>${querydsl-support.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
