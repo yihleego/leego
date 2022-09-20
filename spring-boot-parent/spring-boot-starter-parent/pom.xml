@@ -15,6 +15,9 @@
     <artifactId>spring-boot-starter-parent</artifactId>
     <packaging>pom</packaging>
 
+    <dependencies>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
