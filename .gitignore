@@ -21,3 +21,8 @@ build/
 nbbuild/
 nbdist/
 .nb-gradle/
+
+### Custom ###
+logs
+*.log
+node_modules

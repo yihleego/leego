@@ -76,6 +76,7 @@
         <apache-text.version>1.9</apache-text.version>
         <jmh.version>1.35</jmh.version>
         <!-- Internal Dependencies -->
+        <seq.version>1.0.0</seq.version>
         <standard.version>1.0.0</standard.version>
         <jpa-support.version>1.0.0</jpa-support.version>
         <minio-support.version>1.0.0</minio-support.version>
@@ -202,6 +203,11 @@
                 <groupId>org.openjdk.jmh</groupId>
                 <artifactId>jmh-generator-annprocess</artifactId>
                 <version>${jmh.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.leego.commons</groupId>
+                <artifactId>seq</artifactId>
+                <version>${seq.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.leego.commons</groupId>
