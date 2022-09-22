@@ -4,6 +4,8 @@ import io.leego.commons.seq.exception.SeqErrorException;
 import io.leego.commons.seq.exception.SeqNotFoundException;
 import io.leego.commons.seq.exception.SeqTimeoutException;
 import io.leego.commons.seq.provider.SeqProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -20,7 +22,8 @@ import java.util.function.Supplier;
  * @author Leego Yih
  */
 public class CachedSeq implements Seq {
-    protected static final ExecutorService executorService = Executors.newFixedThreadPool(
+    private static final Logger logger = LoggerFactory.getLogger(CachedSeq.class);
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(
             Runtime.getRuntime().availableProcessors() * 2,
             new DefaultThreadFactory());
     private final SeqProvider provider;
@@ -107,6 +110,8 @@ public class CachedSeq implements Seq {
                 try {
                     syncing = true;
                     provider.next(key, threshold).forEach(queue::offer);
+                } catch (Throwable t) {
+                    logger.error("", t);
                 } finally {
                     syncing = false;
                 }
