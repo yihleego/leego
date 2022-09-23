@@ -3,16 +3,16 @@ package io.leego.support.minio.config;
 import io.leego.support.minio.manager.MinioManager;
 import io.leego.support.minio.manager.impl.MinioManagerImpl;
 import io.minio.MinioClient;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Leego Yih
  */
-@Configuration
+@AutoConfiguration
 @ConditionalOnProperty(value = "minio.enabled", matchIfMissing = true)
 @EnableConfigurationProperties(MinioProperties.class)
 public class MinioSupportAutoConfiguration {

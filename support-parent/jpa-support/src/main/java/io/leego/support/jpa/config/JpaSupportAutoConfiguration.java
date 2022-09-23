@@ -1,10 +1,10 @@
 package io.leego.support.jpa.config;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 
 /**
  * @author Leego Yih
  */
-@Configuration
+@AutoConfiguration
 public class JpaSupportAutoConfiguration {
 }

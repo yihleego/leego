@@ -1,1 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.leego.support.mongodb.config.MongoSupportAutoConfiguration
