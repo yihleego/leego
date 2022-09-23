@@ -6,8 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Objects;
+import org.springframework.util.Assert;
 
 /**
  * JPA updating specific extension of {@link org.springframework.data.jpa.repository.JpaRepository}.
@@ -19,11 +18,11 @@ public interface UpdatableRepository<T extends BaseEntity<ID>, ID> extends JpaRe
 
     /**
      * Updates a given entity.
-     * Use the returned instance for further operations as the save operation might have changed the entity instance completely.
+     * Use the returned instance for further operations as the update operation might have changed the entity instance completely.
      *
      * @param entity must not be {@literal null}.
-     * @return the saved entity; will never be {@literal null}.
-     * @throws IllegalArgumentException in case the given {@literal entity} is {@literal null}.
+     * @return the updated entity; will be {@literal null} if not present.
+     * @throws IllegalArgumentException in case the given {@literal entity} or {@literal id} is {@literal null}.
      */
     @Nullable
     @Transactional
@@ -33,18 +32,20 @@ public interface UpdatableRepository<T extends BaseEntity<ID>, ID> extends JpaRe
 
     /**
      * Updates a given entity, ignoring the given properties.
-     * Use the returned instance for further operations as the save operation might have changed the entity instance completely.
+     * Use the returned instance for further operations as the update operation might have changed the entity instance completely.
      *
      * @param entity must not be {@literal null}.
-     * @return the saved entity; will never be {@literal null}.
-     * @throws IllegalArgumentException in case the given {@literal entity} is {@literal null}.
+     * @return the updated entity; will be {@literal null} if not present.
+     * @throws IllegalArgumentException in case the given {@literal entity} or {@literal id} is {@literal null}.
      */
     @Nullable
     @Transactional
     default T update(T entity, String... ignoreProperties) {
+        Assert.notNull(entity, "Entity must not be null");
+        Assert.notNull(entity.getId(), "Entity must not be null");
         try {
             // Merge the non-null property values of the given entity into the reference
-            T o = this.getReferenceById(Objects.requireNonNull(entity.getId()));
+            T o = this.getReferenceById(entity.getId());
             o.merge(entity, ignoreProperties);
             return this.saveAndFlush(o);
         } catch (EntityNotFoundException ignored) {
