@@ -89,6 +89,22 @@ public final class DateUtils {
         return date.plusDays(amount);
     }
 
+    public static LocalDate minusYears(LocalDate date, long amount) {
+        return date.minusYears(amount);
+    }
+
+    public static LocalDate minusMonths(LocalDate date, long amount) {
+        return date.minusMonths(amount);
+    }
+
+    public static LocalDate minusWeeks(LocalDate date, long amount) {
+        return date.minusWeeks(amount);
+    }
+
+    public static LocalDate minusDays(LocalDate date, long amount) {
+        return date.minusDays(amount);
+    }
+
     public static LocalDate adjustFirstDayOfYear(LocalDate date) {
         return date.with(TemporalAdjusters.firstDayOfYear());
     }

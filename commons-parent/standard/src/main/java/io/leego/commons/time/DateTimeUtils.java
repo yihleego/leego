@@ -117,6 +117,46 @@ public final class DateTimeUtils {
         return dateTime.plus(amount, ChronoUnit.NANOS);
     }
 
+    public static LocalDateTime minusYears(LocalDateTime dateTime, long amount) {
+        return dateTime.minusYears(amount);
+    }
+
+    public static LocalDateTime minusMonths(LocalDateTime dateTime, long amount) {
+        return dateTime.minusMonths(amount);
+    }
+
+    public static LocalDateTime minusWeeks(LocalDateTime dateTime, long amount) {
+        return dateTime.minusWeeks(amount);
+    }
+
+    public static LocalDateTime minusDays(LocalDateTime dateTime, long amount) {
+        return dateTime.minusDays(amount);
+    }
+
+    public static LocalDateTime minusHours(LocalDateTime dateTime, long amount) {
+        return dateTime.minusHours(amount);
+    }
+
+    public static LocalDateTime minusMinutes(LocalDateTime dateTime, long amount) {
+        return dateTime.minusMinutes(amount);
+    }
+
+    public static LocalDateTime minusSeconds(LocalDateTime dateTime, long amount) {
+        return dateTime.minusSeconds(amount);
+    }
+
+    public static LocalDateTime minusMillis(LocalDateTime dateTime, long amount) {
+        return dateTime.minus(amount, ChronoUnit.MILLIS);
+    }
+
+    public static LocalDateTime minusMicros(LocalDateTime dateTime, long amount) {
+        return dateTime.minus(amount, ChronoUnit.MICROS);
+    }
+
+    public static LocalDateTime minusNanos(LocalDateTime dateTime, long amount) {
+        return dateTime.minus(amount, ChronoUnit.NANOS);
+    }
+
     public static LocalDateTime adjustFirstDayOfYear(LocalDateTime dateTime) {
         return dateTime.with(TemporalAdjusters.firstDayOfYear());
     }

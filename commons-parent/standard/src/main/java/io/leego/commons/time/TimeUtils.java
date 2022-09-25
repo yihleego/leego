@@ -95,6 +95,30 @@ public final class TimeUtils {
         return time.plus(amount, ChronoUnit.NANOS);
     }
 
+    public static LocalTime minusHours(LocalTime time, long amount) {
+        return time.minusHours(amount);
+    }
+
+    public static LocalTime minusMinutes(LocalTime time, long amount) {
+        return time.minusMinutes(amount);
+    }
+
+    public static LocalTime minusSeconds(LocalTime time, long amount) {
+        return time.minusSeconds(amount);
+    }
+
+    public static LocalTime minusMillis(LocalTime time, long amount) {
+        return time.minus(amount, ChronoUnit.MILLIS);
+    }
+
+    public static LocalTime minusMicros(LocalTime time, long amount) {
+        return time.minus(amount, ChronoUnit.MICROS);
+    }
+
+    public static LocalTime minusNanos(LocalTime time, long amount) {
+        return time.minus(amount, ChronoUnit.NANOS);
+    }
+
     public static long diffOfHours(Temporal inclusive, Temporal exclusive) {
         return ChronoUnit.HOURS.between(inclusive, exclusive);
     }
