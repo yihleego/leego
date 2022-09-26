@@ -17,6 +17,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 import java.beans.PropertyDescriptor;
@@ -44,7 +46,13 @@ public abstract class BaseEntity<ID> implements Entity<ID>, Persistable<ID> {
     private transient boolean _new = true;
 
     /**
-     * Persist the entity if the returned value is {@code true},
+     * Overrides against {@link  Nullable} annotated on method {@link Persistable#getId()}
+     */
+    @NonNull
+    abstract public ID getId();
+
+    /**
+     * Persists the entity if the returned value is {@code true},
      * otherwise merge the entity.
      *
      * @see jakarta.persistence.EntityManager#persist(Object)
