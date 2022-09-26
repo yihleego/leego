@@ -46,7 +46,7 @@ public abstract class BaseEntity<ID> implements Entity<ID>, Persistable<ID> {
     private transient boolean _new = true;
 
     /**
-     * Overrides against {@link  Nullable} annotated on method {@link Persistable#getId()}
+     * Overrides against {@link Nullable} annotated method {@link Persistable#getId()}.
      */
     @NonNull
     abstract public ID getId();
