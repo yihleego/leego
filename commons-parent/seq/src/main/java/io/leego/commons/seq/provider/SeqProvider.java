@@ -33,7 +33,7 @@ public interface SeqProvider {
      * @param key       the key of the sequence.
      * @param value     the initialized value of the sequence.
      * @param increment the increment of the sequence.
-     * @return <code>true</code> if the sequence is created.
+     * @return {@code true} if the sequence is created.
      */
     boolean create(String key, long value, int increment);
 
@@ -42,15 +42,15 @@ public interface SeqProvider {
      *
      * @param key       the key of the sequence.
      * @param increment the increment of the sequence.
-     * @return <code>true</code> if the sequence is updated.
+     * @return {@code true} if the sequence is updated.
      */
     boolean update(String key, int increment);
 
     /**
-     * Returns <code>true</code> if this provider contains a sequence for the specified key.
+     * Returns {@code true} if this provider contains a sequence for the specified key.
      *
      * @param key the key of the sequence.
-     * @return <code>true</code> if this provider contains a sequence for the specified key.
+     * @return {@code true} if this provider contains a sequence for the specified key.
      */
     boolean contains(String key);
 
@@ -58,7 +58,7 @@ public interface SeqProvider {
      * Creates a sequence with the value of 0 and the increment of 1.
      *
      * @param key the key of the sequence.
-     * @return <code>true</code> if the sequence is created.
+     * @return {@code true} if the sequence is created.
      */
     default boolean create(String key) {
         return this.create(key, 0, 1);

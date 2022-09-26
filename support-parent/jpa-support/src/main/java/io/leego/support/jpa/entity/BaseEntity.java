@@ -44,7 +44,7 @@ public abstract class BaseEntity<ID> implements Entity<ID>, Persistable<ID> {
     private transient boolean _new = true;
 
     /**
-     * Persist the entity if the returned value is <code>true</code>,
+     * Persist the entity if the returned value is {@code true},
      * otherwise merge the entity.
      *
      * @see jakarta.persistence.EntityManager#persist(Object)

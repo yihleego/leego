@@ -17,7 +17,7 @@ public class DistributedLockFactory {
     }
 
     /**
-     * Returns a new <code>DistributedLock</code> with the given condition.
+     * Returns a new {@code DistributedLock} with the given condition.
      */
     public DistributedLock create(String condition) {
         return new DistributedLock(executor, accessor, lockPrefix + ":" + condition);

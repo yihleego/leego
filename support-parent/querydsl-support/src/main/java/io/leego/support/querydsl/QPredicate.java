@@ -114,7 +114,7 @@ public class QPredicate implements Predicate {
     /**
      * Creates the intersection of this and the union of the given args.
      * <p>
-     * <code>(this && (arg1 && arg2 ... && argN))</code>
+     * {@code (this && (arg1 && arg2 ... && argN))}
      *
      * @param args union of predicates
      * @return the current object
@@ -129,7 +129,7 @@ public class QPredicate implements Predicate {
     /**
      * Creates the intersection of this and the union of the given args.
      * <p>
-     * <code>(this && (arg1 && arg2 ... && argN))</code>
+     * {@code (this && (arg1 && arg2 ... && argN))}
      *
      * @param args union of predicates
      * @return the current object
@@ -144,7 +144,7 @@ public class QPredicate implements Predicate {
     /**
      * Creates the intersection of this and the union of the given args.
      * <p>
-     * <code>(this && (arg1 || arg2 ... || argN))</code>
+     * {@code (this && (arg1 || arg2 ... || argN))}
      *
      * @param args union of predicates
      * @return the current object
@@ -159,7 +159,7 @@ public class QPredicate implements Predicate {
     /**
      * Creates the intersection of this and the union of the given args.
      * <p>
-     * <code>(this && (arg1 || arg2 ... || argN))</code>
+     * {@code (this && (arg1 || arg2 ... || argN))}
      *
      * @param args union of predicates
      * @return the current object
@@ -198,7 +198,7 @@ public class QPredicate implements Predicate {
     /**
      * Creates the union of this and the intersection of the given args
      * <p>
-     * <code>(this || (arg1 && arg2 ... && argN))</code>
+     * {@code (this || (arg1 && arg2 ... && argN))}
      *
      * @param args intersection of predicates
      * @return the current object
@@ -213,7 +213,7 @@ public class QPredicate implements Predicate {
     /**
      * Creates the union of this and the intersection of the given args
      * <p>
-     * <code>(this || (arg1 && arg2 ... && argN))</code>
+     * {@code (this || (arg1 && arg2 ... && argN))}
      *
      * @param args intersection of predicates
      * @return the current object
@@ -228,7 +228,7 @@ public class QPredicate implements Predicate {
     /**
      * Creates the intersection of this and the given operation and value.
      * <p>
-     * <code>(this && arg)</code>
+     * {@code (this && arg)}
      *
      * @param operation the operation
      * @param value     the value
@@ -434,7 +434,7 @@ public class QPredicate implements Predicate {
     }
 
     /**
-     * Returns <code>true</code> if the value is set, and false, if not.
+     * Returns {@code true} if the value is set, and false, if not.
      *
      * @return true if initialized and false if not
      */
@@ -443,7 +443,7 @@ public class QPredicate implements Predicate {
     }
 
     /**
-     * Returns <code>true</code> if the value is null, and false, if not.
+     * Returns {@code true} if the value is null, and false, if not.
      *
      * @return true if absent and false if not
      */

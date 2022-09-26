@@ -34,8 +34,8 @@ public abstract class CrudEntity<ID> extends BaseEntity<ID> implements Creatable
     protected LocalDateTime deletedTime;
 
     /**
-     * Returns <code>true</code> if it has been deleted,
-     * that is, when the <code>deleted</code> is equal to the <code>id</code>.
+     * Returns {@code true} if it has been deleted,
+     * that is, when the {@code deleted} is equal to the {@code id}.
      *
      * @see io.leego.support.jpa.repository.DeletableRepository
      */
