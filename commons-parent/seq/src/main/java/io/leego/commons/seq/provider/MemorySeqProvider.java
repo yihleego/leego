@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Leego Yih
  */
 public class MemorySeqProvider implements SeqProvider {
-    protected final ConcurrentMap<String, AtomicSeq> store = new ConcurrentHashMap<>(64);
+    private final ConcurrentMap<String, AtomicSeq> store = new ConcurrentHashMap<>(64);
 
     @Override
     public long next(String key) {

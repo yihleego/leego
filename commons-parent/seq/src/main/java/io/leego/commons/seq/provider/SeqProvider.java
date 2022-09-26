@@ -1,5 +1,7 @@
 package io.leego.commons.seq.provider;
 
+import io.leego.commons.seq.exception.SeqNotFoundException;
+
 /**
  * @author Leego Yih
  */
@@ -10,6 +12,7 @@ public interface SeqProvider {
      *
      * @param key the key of the sequence.
      * @return the next sequence.
+     * @throws SeqNotFoundException if the sequence is missing
      */
     long next(String key);
 
@@ -19,6 +22,8 @@ public interface SeqProvider {
      * @param key  the key of the sequence.
      * @param size the size to be obtained
      * @return the next segment.
+     * @throws IllegalArgumentException if the size is negative
+     * @throws SeqNotFoundException     if the sequence is missing
      */
     Segment next(String key, int size);
 
