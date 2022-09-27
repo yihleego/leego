@@ -6,7 +6,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +21,54 @@ import java.util.List;
 public interface DeletableRepository<T extends BaseEntity<ID>, ID> extends JpaRepository<T, ID> {
 
     /**
+     * Marks the entity as deleted with the given id and time of deletion.
+     *
+     * @param id          must not be {@literal null}.
+     * @param deletedTime must not be {@literal null}.
+     * @throws IllegalArgumentException in case the given {@literal id} is {@literal null},
+     *                                  or the time of deletion is {@literal null}.
+     */
+    @Transactional
+    @Modifying
+    @Query("update #{#entityName} set deleted = id, deletedTime = ?2 where id = ?1 and deleted = 0")
+    void deleteById(ID id, LocalDateTime deletedTime);
+
+    /**
+     * Marks all entities as deleted with the given ids and time of deletion.
+     *
+     * @param ids         must not be {@literal null}. Must not contain {@literal null} elements.
+     * @param deletedTime must not be {@literal null}.
+     * @throws IllegalArgumentException in case the given {@literal ids} or one of its elements is {@literal null},
+     *                                  or the time of deletion is {@literal null}.
+     */
+    @Transactional
+    @Modifying
+    @Query("update #{#entityName} set deleted = id, deletedTime = ?2 where id in ?1 and deleted = 0")
+    void deleteAllById(Iterable<? extends ID> ids, LocalDateTime deletedTime);
+
+    /**
+     * Marks all entities managed by the repository as deleted with the given time of deletion.
+     *
+     * @param deletedTime must not be {@literal null}.
+     * @throws IllegalArgumentException in case the given time of deletion is {@literal null}.
+     */
+    @Transactional
+    @Modifying
+    @Query("update #{#entityName} set deleted = id, deletedTime = ?1 where deleted = 0")
+    void deleteAll(LocalDateTime deletedTime);
+
+    /**
      * Marks the entity as deleted with the given id.
      *
      * @param id must not be {@literal null}.
-     * @throws IllegalArgumentException in case the given {@literal id} is {@literal null}
+     * @throws IllegalArgumentException in case the given {@literal id} is {@literal null}.
      */
     @Override
     @Transactional
-    @Modifying
-    @Query("update #{#entityName} set deleted = id, deletedTime = :#{T(java.time.LocalDateTime).now()} where id = ?1 and deleted = 0")
-    void deleteById(ID id);
+    default void deleteById(ID id) {
+        Assert.notNull(id, "The given id must not be null");
+        this.deleteById(id, LocalDateTime.now());
+    }
 
     /**
      * Marks all entities as deleted with the given ids.
@@ -38,18 +78,19 @@ public interface DeletableRepository<T extends BaseEntity<ID>, ID> extends JpaRe
      */
     @Override
     @Transactional
-    @Modifying
-    @Query("update #{#entityName} set deleted = id, deletedTime = :#{T(java.time.LocalDateTime).now()} where id in ?1 and deleted = 0")
-    void deleteAllById(Iterable<? extends ID> ids);
+    default void deleteAllById(Iterable<? extends ID> ids) {
+        Assert.notNull(ids, "The given ids must not be null");
+        this.deleteAllById(ids, LocalDateTime.now());
+    }
 
     /**
      * Marks all entities managed by the repository as deleted.
      */
     @Override
     @Transactional
-    @Modifying
-    @Query("update #{#entityName} set deleted = id, deletedTime = :#{T(java.time.LocalDateTime).now()} where deleted = 0")
-    void deleteAll();
+    default void deleteAll() {
+        this.deleteAll(LocalDateTime.now());
+    }
 
     /**
      * Marks the given entity as deleted.
@@ -60,9 +101,9 @@ public interface DeletableRepository<T extends BaseEntity<ID>, ID> extends JpaRe
     @Override
     @Transactional
     default void delete(T entity) {
-        if (entity.getId() != null) {
-            this.deleteById(entity.getId());
-        }
+        Assert.notNull(entity, "The given entity must not be null");
+        Assert.notNull(entity.getId(), "The id of the given entity must not be null");
+        this.deleteById(entity.getId(), LocalDateTime.now());
     }
 
     /**
@@ -74,15 +115,13 @@ public interface DeletableRepository<T extends BaseEntity<ID>, ID> extends JpaRe
     @Override
     @Transactional
     default void deleteAll(Iterable<? extends T> entities) {
+        Assert.notNull(entities, "The given entities must not be null");
         List<ID> ids = new ArrayList<>();
         for (T entity : entities) {
-            if (entity.getId() != null) {
-                ids.add(entity.getId());
-            }
+            Assert.notNull(entity.getId(), "The id of the entity must not be null");
+            ids.add(entity.getId());
         }
-        if (!ids.isEmpty()) {
-            this.deleteAllById(ids);
-        }
+        this.deleteAllById(ids, LocalDateTime.now());
     }
 
     /**
