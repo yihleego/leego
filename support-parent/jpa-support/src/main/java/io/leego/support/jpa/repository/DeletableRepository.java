@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -28,8 +27,8 @@ public interface DeletableRepository<T extends BaseEntity<ID>, ID> extends JpaRe
     @Override
     @Transactional
     @Modifying
-    @Query("update #{#entityName} set deleted = id, deletedTime = :#{T(java.time.LocalDateTime).now()} where id = :id and deleted = 0")
-    void deleteById(@Param("id") ID id);
+    @Query("update #{#entityName} set deleted = id, deletedTime = :#{T(java.time.LocalDateTime).now()} where id = ?1 and deleted = 0")
+    void deleteById(ID id);
 
     /**
      * Marks all entities as deleted with the given ids.
@@ -40,8 +39,8 @@ public interface DeletableRepository<T extends BaseEntity<ID>, ID> extends JpaRe
     @Override
     @Transactional
     @Modifying
-    @Query("update #{#entityName} set deleted = id, deletedTime = :#{T(java.time.LocalDateTime).now()} where id in :ids and deleted = 0")
-    void deleteAllById(@Param("ids") Iterable<? extends ID> ids);
+    @Query("update #{#entityName} set deleted = id, deletedTime = :#{T(java.time.LocalDateTime).now()} where id in ?1 and deleted = 0")
+    void deleteAllById(Iterable<? extends ID> ids);
 
     /**
      * Marks all entities managed by the repository as deleted.
