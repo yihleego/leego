@@ -14,10 +14,10 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @Setter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public abstract class UpdatableLongIdEntity extends UpdatableEntity<Long> {
+public abstract class StringIdBaseEntity extends BaseEntity<String> {
     @Override
-    @MongoId(FieldType.INT64)
-    public Long getId() {
+    @MongoId(FieldType.STRING)
+    public String getId() {
         return id;
     }
 }

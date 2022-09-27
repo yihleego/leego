@@ -14,10 +14,10 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @Setter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public abstract class BaseLongIdEntity extends BaseEntity<Long> {
+public abstract class ObjectIdCreatableEntity extends CreatableEntity<String> {
     @Override
-    @MongoId(FieldType.INT64)
-    public Long getId() {
+    @MongoId(FieldType.OBJECT_ID)
+    public String getId() {
         return id;
     }
 }

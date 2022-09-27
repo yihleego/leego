@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
-public abstract class DeletableLongIdEntity extends DeletableEntity<Long> {
+public abstract class LongIdCrudEntity extends CrudEntity<Long> {
     @Override
     public Long getId() {
         return id;

@@ -1,10 +1,11 @@
-package io.leego.support.jpa.entity;
+package io.leego.support.mongodb.entity;
 
-import jakarta.persistence.MappedSuperclass;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 /**
  * @author Leego Yih
@@ -13,9 +14,9 @@ import lombok.ToString;
 @Setter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@MappedSuperclass
-public abstract class UpdatableStringIdEntity extends UpdatableEntity<String> {
+public abstract class StringIdUpdatableEntity extends UpdatableEntity<String> {
     @Override
+    @MongoId(FieldType.STRING)
     public String getId() {
         return id;
     }
