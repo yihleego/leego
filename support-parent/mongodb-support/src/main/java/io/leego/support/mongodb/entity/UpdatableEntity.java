@@ -7,6 +7,8 @@ import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +22,9 @@ import java.time.LocalDateTime;
 @FieldNameConstants
 public abstract class UpdatableEntity<ID> extends BaseEntity<ID> implements Creatable, Updatable {
     @CreatedDate
+    @Field(targetType = FieldType.TIMESTAMP)
     protected LocalDateTime createdTime;
     @LastModifiedDate
+    @Field(targetType = FieldType.TIMESTAMP)
     protected LocalDateTime updatedTime;
 }
