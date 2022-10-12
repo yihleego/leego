@@ -26,7 +26,7 @@ public class MemorySeqProvider implements SeqProvider {
         int increment = seq.increment;
         long delta = (long) increment * size;
         long newValue = seq.addAndGet(delta);
-        return new Segment(newValue - delta, increment, size);
+        return new Segment(newValue - delta + increment, increment, size);
     }
 
     @Override
