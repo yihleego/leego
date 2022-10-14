@@ -72,7 +72,7 @@
         <minio.version>8.4.3</minio.version>
         <okhttp.version>4.10.0</okhttp.version>
         <guava.version>31.1-jre</guava.version>
-        <apache-text.version>1.9</apache-text.version>
+        <apache-text.version>1.10.0</apache-text.version>
         <jmh.version>1.35</jmh.version>
         <!-- Internal Dependencies -->
         <seq.version>1.0.0</seq.version>
