@@ -3,7 +3,6 @@ package io.leego.commons.time;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -38,7 +37,7 @@ public final class DateTimeUtils {
     }
 
     public static long timestamp(LocalDateTime dateTime) {
-        return dateTime.toInstant(OffsetDateTime.now().getOffset()).toEpochMilli();
+        return dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
     public static String now() {
