@@ -1,6 +1,6 @@
 package io.leego.support.jpa.repository;
 
-import io.leego.support.jpa.entity.BaseEntity;
+import io.leego.support.jpa.entity.Entity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,7 +18,7 @@ import java.util.List;
  * @author Leego Yih
  */
 @NoRepositoryBean
-public interface DeletableRepository<T extends BaseEntity<ID>, ID> extends JpaRepository<T, ID> {
+public interface DeletableRepository<T extends Entity<ID>, ID> extends JpaRepository<T, ID> {
 
     /**
      * Marks the entity as deleted with the given id and time of deletion.

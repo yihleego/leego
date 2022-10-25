@@ -7,10 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PostLoad;
 import jakarta.persistence.Transient;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.beans.BeanUtils;
@@ -28,8 +25,6 @@ import java.util.Set;
 /**
  * @author Leego Yih
  */
-@Getter
-@Setter
 @ToString
 @EqualsAndHashCode
 @FieldNameConstants
@@ -41,8 +36,6 @@ public abstract class BaseEntity<ID> implements Entity<ID>, Persistable<ID> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected ID id;
     @Transient
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
     private transient boolean _new = true;
 
     /**
@@ -52,7 +45,15 @@ public abstract class BaseEntity<ID> implements Entity<ID>, Persistable<ID> {
      * @return the id of the entity.
      */
     @NonNull
-    abstract public ID getId();
+    @Override
+    public ID getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(ID id) {
+        this.id = id;
+    }
 
     /**
      * Persists the entity if the returned value is {@code true},
