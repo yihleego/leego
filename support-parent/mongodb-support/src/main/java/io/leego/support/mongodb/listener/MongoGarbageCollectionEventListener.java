@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +34,7 @@ public class MongoGarbageCollectionEventListener extends AbstractMongoEventListe
         List<Object> objects = mongoTemplate.find(new BasicQuery(event.getDocument()), event.getType(), collectionName);
         if (!CollectionUtils.isEmpty(objects)) {
             // Collect the garbage
-            LocalDateTime now = LocalDateTime.now();
+            Instant now = Instant.now();
             mongoTemplate.insert(objects.stream()
                     .map(o -> new Garbage(collectionName, o, now))
                     .collect(Collectors.toList()), Garbage.class);

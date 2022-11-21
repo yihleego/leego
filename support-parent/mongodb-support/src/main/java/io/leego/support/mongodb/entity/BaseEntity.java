@@ -22,7 +22,6 @@ import java.util.Set;
 @EqualsAndHashCode
 @FieldNameConstants
 public abstract class BaseEntity<ID> implements Entity<ID> {
-    public static final Set<String> IGNORED = Set.of("class", "id", "createdTime", "updatedTime", "deleted", "deletedTime");
     protected ID id;
 
     /**
@@ -56,4 +55,6 @@ public abstract class BaseEntity<ID> implements Entity<ID> {
             }
         }
     }
+
+    public static final Set<String> IGNORED = Set.of("class", "id", "createdTime", "updatedTime", "deleted", "deletedTime");
 }

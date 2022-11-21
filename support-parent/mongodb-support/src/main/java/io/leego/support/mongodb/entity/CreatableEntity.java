@@ -9,7 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * @author Leego Yih
@@ -22,5 +22,5 @@ import java.time.LocalDateTime;
 public abstract class CreatableEntity<ID> extends BaseEntity<ID> implements Creatable {
     @CreatedDate
     @Field(targetType = FieldType.TIMESTAMP)
-    protected LocalDateTime createdTime;
+    protected Instant createdTime;
 }

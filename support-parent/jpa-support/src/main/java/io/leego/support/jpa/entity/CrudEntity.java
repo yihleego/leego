@@ -10,7 +10,7 @@ import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -25,13 +25,13 @@ import java.util.Objects;
 public abstract class CrudEntity<ID> extends BaseEntity<ID> implements Creatable, Updatable, Deletable<ID> {
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    protected LocalDateTime createdTime;
+    protected Instant createdTime;
     @LastModifiedDate
-    protected LocalDateTime updatedTime;
+    protected Instant updatedTime;
     @Column(insertable = false, updatable = false)
     protected ID deleted;
     @Column(insertable = false, updatable = false)
-    protected LocalDateTime deletedTime;
+    protected Instant deletedTime;
 
     /**
      * Returns {@code true} if it has been deleted,

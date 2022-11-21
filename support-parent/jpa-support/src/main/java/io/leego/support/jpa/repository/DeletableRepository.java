@@ -8,7 +8,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +31,7 @@ public interface DeletableRepository<T extends Entity<ID>, ID> extends JpaReposi
     @Transactional
     @Modifying
     @Query("update #{#entityName} set deleted = id, deletedTime = ?2 where id = ?1 and deleted = 0")
-    void deleteById(ID id, LocalDateTime deletedTime);
+    void deleteById(ID id, Instant deletedTime);
 
     /**
      * Marks all entities as deleted with the given ids and time of deletion.
@@ -44,7 +44,7 @@ public interface DeletableRepository<T extends Entity<ID>, ID> extends JpaReposi
     @Transactional
     @Modifying
     @Query("update #{#entityName} set deleted = id, deletedTime = ?2 where id in ?1 and deleted = 0")
-    void deleteAllById(Iterable<? extends ID> ids, LocalDateTime deletedTime);
+    void deleteAllById(Iterable<? extends ID> ids, Instant deletedTime);
 
     /**
      * Marks all entities managed by the repository as deleted with the given time of deletion.
@@ -55,7 +55,7 @@ public interface DeletableRepository<T extends Entity<ID>, ID> extends JpaReposi
     @Transactional
     @Modifying
     @Query("update #{#entityName} set deleted = id, deletedTime = ?1 where deleted = 0")
-    void deleteAll(LocalDateTime deletedTime);
+    void deleteAll(Instant deletedTime);
 
     /**
      * Marks the entity as deleted with the given id.
@@ -67,7 +67,7 @@ public interface DeletableRepository<T extends Entity<ID>, ID> extends JpaReposi
     @Transactional
     default void deleteById(ID id) {
         Assert.notNull(id, "The given id must not be null");
-        this.deleteById(id, LocalDateTime.now());
+        this.deleteById(id, Instant.now());
     }
 
     /**
@@ -80,7 +80,7 @@ public interface DeletableRepository<T extends Entity<ID>, ID> extends JpaReposi
     @Transactional
     default void deleteAllById(Iterable<? extends ID> ids) {
         Assert.notNull(ids, "The given ids must not be null");
-        this.deleteAllById(ids, LocalDateTime.now());
+        this.deleteAllById(ids, Instant.now());
     }
 
     /**
@@ -89,7 +89,7 @@ public interface DeletableRepository<T extends Entity<ID>, ID> extends JpaReposi
     @Override
     @Transactional
     default void deleteAll() {
-        this.deleteAll(LocalDateTime.now());
+        this.deleteAll(Instant.now());
     }
 
     /**
@@ -103,7 +103,7 @@ public interface DeletableRepository<T extends Entity<ID>, ID> extends JpaReposi
     default void delete(T entity) {
         Assert.notNull(entity, "The given entity must not be null");
         Assert.notNull(entity.getId(), "The id of the given entity must not be null");
-        this.deleteById(entity.getId(), LocalDateTime.now());
+        this.deleteById(entity.getId(), Instant.now());
     }
 
     /**
@@ -121,7 +121,7 @@ public interface DeletableRepository<T extends Entity<ID>, ID> extends JpaReposi
             Assert.notNull(entity.getId(), "The id of the entity must not be null");
             ids.add(entity.getId());
         }
-        this.deleteAllById(ids, LocalDateTime.now());
+        this.deleteAllById(ids, Instant.now());
     }
 
     /**

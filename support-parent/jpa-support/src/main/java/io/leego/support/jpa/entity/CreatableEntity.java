@@ -9,7 +9,7 @@ import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * @author Leego Yih
@@ -23,5 +23,5 @@ import java.time.LocalDateTime;
 public abstract class CreatableEntity<ID> extends BaseEntity<ID> implements Creatable {
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    protected LocalDateTime createdTime;
+    protected Instant createdTime;
 }

@@ -1,14 +1,14 @@
 package io.leego.support.mongodb.entity;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * @author Leego Yih
  */
 public interface Updatable {
 
-    LocalDateTime getUpdatedTime();
+    Instant getUpdatedTime();
 
-    void setUpdatedTime(LocalDateTime updatedTime);
+    void setUpdatedTime(Instant updatedTime);
 
 }

@@ -31,7 +31,6 @@ import java.util.Set;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity<ID> implements Entity<ID>, Persistable<ID> {
-    public static final Set<String> IGNORED = Set.of("class", "new", "_new", "id", "createdTime", "updatedTime", "deleted", "deletedTime");
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected ID id;
@@ -111,4 +110,6 @@ public abstract class BaseEntity<ID> implements Entity<ID>, Persistable<ID> {
             }
         }
     }
+
+    public static final Set<String> IGNORED = Set.of("class", "new", "_new", "id", "createdTime", "updatedTime", "deleted", "deletedTime");
 }

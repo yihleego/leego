@@ -19,19 +19,17 @@ import java.util.stream.Collectors;
 public interface QuerydslRepository<T> extends QuerydslPredicateExecutor<T> {
 
     default Page<T> findAll(Predicate predicate, Pageable pageable) {
-        if (pageable != null) {
-            if (pageable.isPaged()) {
-                return toPage(this.findAll(predicate, toPageable(pageable)));
-            }
-            if (pageable.isSorted()) {
-                return toPage(this.findAll(predicate, toSort(pageable)));
-            }
+        if (pageable.isPaged()) {
+            return toPage(this.findAll(predicate, toPageable(pageable)));
+        }
+        if (pageable.isSorted()) {
+            return toPage(this.findAll(predicate, toSort(pageable)));
         }
         return toPage(this.findAll(predicate));
     }
 
     default List<T> findAll(Predicate predicate, Sortable sortable) {
-        if (sortable != null && sortable.isSorted()) {
+        if (sortable.isSorted()) {
             return toList(this.findAll(predicate, toSort(sortable)));
         }
         return toList(this.findAll(predicate));
@@ -39,13 +37,15 @@ public interface QuerydslRepository<T> extends QuerydslPredicateExecutor<T> {
 
     private org.springframework.data.domain.Pageable toPageable(Pageable pageable) {
         return pageable.isSorted()
-                ? org.springframework.data.domain.PageRequest.of(pageable.getPage() - 1, pageable.getSize(), toSort(pageable))
-                : org.springframework.data.domain.PageRequest.of(pageable.getPage() - 1, pageable.getSize());
+                ? org.springframework.data.domain.PageRequest.of(pageable.getPage(), pageable.getSize(), toSort(pageable))
+                : org.springframework.data.domain.PageRequest.of(pageable.getPage(), pageable.getSize());
     }
 
     private org.springframework.data.domain.Sort toSort(Sortable sortable) {
         return org.springframework.data.domain.Sort.by(
-                sortable.getSort().getOrders().stream()
+                sortable.getSort()
+                        .getOrders()
+                        .stream()
                         .map(this::toOrder)
                         .collect(Collectors.toList()));
     }
@@ -62,8 +62,9 @@ public interface QuerydslRepository<T> extends QuerydslPredicateExecutor<T> {
     }
 
     private Page<T> toPage(org.springframework.data.domain.Page<T> page) {
-        return Page.of(page.getContent(),
-                page.getPageable().getPageNumber() + 1,
+        return Page.of(
+                page.getContent(),
+                page.getPageable().getPageNumber(),
                 page.getPageable().getPageSize(),
                 page.getTotalElements(),
                 (long) page.getTotalPages());
@@ -72,10 +73,9 @@ public interface QuerydslRepository<T> extends QuerydslPredicateExecutor<T> {
     private List<T> toList(Iterable<T> iterable) {
         if (iterable instanceof List<T> list) {
             return list;
-        } else {
-            List<T> list = new ArrayList<>();
-            iterable.forEach(list::add);
-            return list;
         }
+        List<T> list = new ArrayList<>();
+        iterable.forEach(list::add);
+        return list;
     }
 }

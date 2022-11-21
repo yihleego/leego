@@ -1,14 +1,14 @@
 package io.leego.support.jpa.entity;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * @author Leego Yih
  */
 public interface Creatable {
 
-    LocalDateTime getCreatedTime();
+    Instant getCreatedTime();
 
-    void setCreatedTime(LocalDateTime createdTime);
+    void setCreatedTime(Instant createdTime);
 
 }

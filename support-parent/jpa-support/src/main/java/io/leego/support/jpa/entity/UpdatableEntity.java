@@ -10,7 +10,7 @@ import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * @author Leego Yih
@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 public abstract class UpdatableEntity<ID> extends BaseEntity<ID> implements Creatable, Updatable {
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    protected LocalDateTime createdTime;
+    protected Instant createdTime;
     @LastModifiedDate
-    protected LocalDateTime updatedTime;
+    protected Instant updatedTime;
 }

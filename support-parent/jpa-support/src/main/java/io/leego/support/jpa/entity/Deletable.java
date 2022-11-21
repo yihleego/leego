@@ -1,6 +1,6 @@
 package io.leego.support.jpa.entity;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * @author Leego Yih
@@ -11,9 +11,9 @@ public interface Deletable<DEL> {
 
     void setDeleted(DEL deleted);
 
-    LocalDateTime getDeletedTime();
+    Instant getDeletedTime();
 
-    void setDeletedTime(LocalDateTime deletedTime);
+    void setDeletedTime(Instant deletedTime);
 
     boolean isDeleted();
 

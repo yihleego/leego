@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * @author Leego Yih
@@ -27,9 +27,9 @@ public class Garbage {
     private Object data;
     @Indexed
     @Field(targetType = FieldType.TIMESTAMP)
-    private LocalDateTime collectedTime;
+    private Instant collectedTime;
 
-    public Garbage(String type, Object data, LocalDateTime collectedTime) {
+    public Garbage(String type, Object data, Instant collectedTime) {
         this.type = type;
         this.data = data;
         this.collectedTime = collectedTime;
