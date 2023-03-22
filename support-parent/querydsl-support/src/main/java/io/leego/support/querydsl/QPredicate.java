@@ -94,7 +94,9 @@ public class QPredicate implements Predicate {
      * @return the current object
      */
     public QPredicate and(Predicate right) {
-        predicate = ExpressionUtils.and(predicate, right);
+        if (right != null) {
+            predicate = ExpressionUtils.and(predicate, right);
+        }
         return this;
     }
 

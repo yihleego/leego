@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -14,7 +15,7 @@ import java.util.stream.Stream;
 /**
  * @author Leego Yih
  */
-public class Page<T> implements Serializable {
+public class Page<T> implements Serializable, Iterable<T> {
     @Serial
     private static final long serialVersionUID = 3214571808482585491L;
     /** The page content as {@link List}. */
@@ -219,5 +220,10 @@ public class Page<T> implements Serializable {
 
     public <E> E getExtra(Class<E> clazz) {
         return clazz.cast(extra);
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return this.list.iterator();
     }
 }
