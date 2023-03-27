@@ -1,8 +1,6 @@
 package io.leego.support.jpa.entity;
 
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PostLoad;
@@ -32,7 +30,6 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity<ID> implements Entity<ID>, Persistable<ID> {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected ID id;
     @Transient
     private transient boolean _new = true;
