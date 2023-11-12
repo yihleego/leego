@@ -64,7 +64,7 @@
         <spring-cloud.version>2022.0.4</spring-cloud.version>
         <jackson.version>2.15.3</jackson.version>
         <lombok.version>1.18.30</lombok.version>
-        <netty.version>4.1.100.Final</netty.version>
+        <netty.version>4.1.101.Final</netty.version>
         <protobuf.version>3.24.4</protobuf.version>
         <mybatis.version>3.5.13</mybatis.version>
         <mybatis-spring-boot-starter.version>3.0.2</mybatis-spring-boot-starter.version>
