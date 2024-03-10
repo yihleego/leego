@@ -11,7 +11,6 @@ import org.springframework.util.ObjectUtils;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * @author Leego Yih
@@ -46,7 +45,9 @@ public abstract class BaseEntity<ID> implements Entity<ID> {
         }
         PropertyDescriptor[] pds = BeanUtils.getPropertyDescriptors(this.getClass());
         for (PropertyDescriptor pd : pds) {
-            if (IGNORED.contains(pd.getName()) || ObjectUtils.containsElement(ignoreProperties, pd.getName())) {
+            String name = pd.getName();
+            if (ObjectUtils.containsElement(IGNORED, name)
+                    || (!ObjectUtils.isEmpty(ignoreProperties) && ObjectUtils.containsElement(ignoreProperties, name))) {
                 continue;
             }
             Method writeMethod = pd.getWriteMethod();
@@ -60,12 +61,12 @@ public abstract class BaseEntity<ID> implements Entity<ID> {
                             writeMethod.invoke(this, value);
                         }
                     } catch (Throwable e) {
-                        throw new FatalBeanException("Could not merge property '" + pd.getName() + "'", e);
+                        throw new FatalBeanException("Could not merge property '" + name + "'", e);
                     }
                 }
             }
         }
     }
 
-    public static final Set<String> IGNORED = Set.of("class", "id", "createdTime", "updatedTime");
+    public static final String[] IGNORED = {"class", "id", "createdTime", "updatedTime"};
 }
