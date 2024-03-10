@@ -1,6 +1,5 @@
 package io.leego.support.mongodb.entity;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,7 +17,6 @@ import java.time.Instant;
 @Getter
 @Setter
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 @FieldNameConstants
 public abstract class UpdatableEntity<ID> extends BaseEntity<ID> implements Creatable, Updatable {
     @CreatedDate

@@ -5,9 +5,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PostLoad;
 import jakarta.persistence.Transient;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
+import org.hibernate.proxy.HibernateProxy;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.data.domain.Persistable;
@@ -18,13 +18,13 @@ import org.springframework.util.ObjectUtils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.Set;
 
 /**
  * @author Leego Yih
  */
 @ToString
-@EqualsAndHashCode
 @FieldNameConstants
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -32,6 +32,7 @@ public abstract class BaseEntity<ID> implements Entity<ID>, Persistable<ID> {
     @Id
     protected ID id;
     @Transient
+    @ToString.Exclude
     private transient boolean _new = true;
 
     /**
@@ -76,6 +77,22 @@ public abstract class BaseEntity<ID> implements Entity<ID>, Persistable<ID> {
         this._new = false;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        Class<?> thatEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        if (thisEffectiveClass != thatEffectiveClass) return false;
+        Entity<?> that = (Entity<?>) o;
+        return this.getId() != null && Objects.equals(this.getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
+
     /**
      * Merge the non-null property values of the given entity into self,
      * ignoring the given properties.
@@ -108,5 +125,5 @@ public abstract class BaseEntity<ID> implements Entity<ID>, Persistable<ID> {
         }
     }
 
-    public static final Set<String> IGNORED = Set.of("class", "new", "_new", "id", "createdTime", "updatedTime", "deleted", "deletedTime");
+    public static final Set<String> IGNORED = Set.of("class", "new", "_new", "id", "createdTime", "updatedTime", "deletedTime", "deleted");
 }

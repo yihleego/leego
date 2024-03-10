@@ -1,6 +1,5 @@
 package io.leego.support.mongodb.entity;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,6 +10,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -19,10 +19,21 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
 @FieldNameConstants
 public abstract class BaseEntity<ID> implements Entity<ID> {
     protected ID id;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Entity<?> that)) return false;
+        return this.getId() != null && Objects.equals(this.getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 
     /**
      * Merge the non-null property values of the given entity into self,
@@ -56,5 +67,5 @@ public abstract class BaseEntity<ID> implements Entity<ID> {
         }
     }
 
-    public static final Set<String> IGNORED = Set.of("class", "id", "createdTime", "updatedTime", "deleted", "deletedTime");
+    public static final Set<String> IGNORED = Set.of("class", "id", "createdTime", "updatedTime");
 }
