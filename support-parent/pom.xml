@@ -19,6 +19,7 @@
 
     <modules>
         <module>jpa-support</module>
+        <module>lock-support</module>
         <module>minio-support</module>
         <module>mongodb-support</module>
         <module>querydsl-support</module>
