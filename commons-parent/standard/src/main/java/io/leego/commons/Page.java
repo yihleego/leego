@@ -127,14 +127,38 @@ public class Page<T> implements Serializable, Iterable<T> {
         return new Page<>(Collections.emptyList());
     }
 
+    public <U> Page<U> toEmpty() {
+        return new Page<>(Collections.emptyList(), page, size, total, pages, extra);
+    }
+
     public <U> Page<U> map(Function<? super T, ? extends U> converter) {
         return new Page<>(
                 list == null || list.isEmpty() ? Collections.emptyList() : list.stream().map(converter).collect(Collectors.toList()),
                 page, size, total, pages, extra);
     }
 
-    public <U> Page<U> toEmpty() {
-        return new Page<>(Collections.emptyList(), page, size, total, pages, extra);
+    public T get(int index) {
+        return list.get(index);
+    }
+
+    public T set(int index, T element) {
+        return list.set(index, element);
+    }
+
+    public boolean add(T element) {
+        return list.add(element);
+    }
+
+    public boolean remove(T element) {
+        return list.remove(element);
+    }
+
+    public boolean addAll(Collection<? extends T> c) {
+        return list.addAll(c);
+    }
+
+    public void clear() {
+        list.clear();
     }
 
     public Page<T> peek(Consumer<? super T> action) {
@@ -144,10 +168,16 @@ public class Page<T> implements Serializable, Iterable<T> {
         return this;
     }
 
+    @Override
     public void forEach(Consumer<? super T> action) {
         if (list != null) {
             list.forEach(action);
         }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return this.list.iterator();
     }
 
     public Stream<T> stream() {
@@ -220,10 +250,5 @@ public class Page<T> implements Serializable, Iterable<T> {
 
     public <E> E getExtra(Class<E> clazz) {
         return clazz.cast(extra);
-    }
-
-    @Override
-    public Iterator<T> iterator() {
-        return this.list.iterator();
     }
 }
