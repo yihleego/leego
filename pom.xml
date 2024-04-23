@@ -146,6 +146,11 @@
             </dependency>
             <dependency>
                 <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-core</artifactId>
+                <version>${querydsl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.querydsl</groupId>
                 <artifactId>querydsl-jpa</artifactId>
                 <version>${querydsl.version}</version>
                 <classifier>jakarta</classifier>
@@ -331,7 +336,7 @@
         </pluginManagement>
     </build>
 
-    <repositories>
+    <!--<repositories>
         <repository>
             <id>spring-snapshots</id>
             <url>https://repo.spring.io/snapshot</url>
@@ -362,6 +367,6 @@
             <id>spring-releases</id>
             <url>https://repo.spring.io/release</url>
         </pluginRepository>
-    </pluginRepositories>
+    </pluginRepositories>-->
 
 </project>
