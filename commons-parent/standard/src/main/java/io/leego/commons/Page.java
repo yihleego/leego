@@ -137,28 +137,17 @@ public class Page<T> implements Serializable, Iterable<T> {
                 page, size, total, pages, extra);
     }
 
-    public T get(int index) {
-        return list.get(index);
-    }
-
-    public T set(int index, T element) {
-        return list.set(index, element);
-    }
-
-    public boolean add(T element) {
-        return list.add(element);
-    }
-
-    public boolean remove(T element) {
-        return list.remove(element);
-    }
-
     public boolean addAll(Collection<? extends T> c) {
+        if (list == null) {
+            list = new ArrayList<>();
+        }
         return list.addAll(c);
     }
 
     public void clear() {
-        list.clear();
+        if (list != null) {
+            list.clear();
+        }
     }
 
     public Page<T> peek(Consumer<? super T> action) {
@@ -177,10 +166,16 @@ public class Page<T> implements Serializable, Iterable<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return this.list.iterator();
+        if (list == null) {
+            return Collections.emptyIterator();
+        }
+        return list.iterator();
     }
 
     public Stream<T> stream() {
+        if (list == null) {
+            return Stream.empty();
+        }
         return list.stream();
     }
 
