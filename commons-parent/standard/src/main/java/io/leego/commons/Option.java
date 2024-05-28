@@ -41,6 +41,10 @@ public class Option<K, V> implements Serializable {
     }
 
 
+    public static <K, V> Option<K, V> of(K key, V value) {
+        return new Option<>(key, value);
+    }
+
     public static <K, V> List<Option<K, V>> of(Map<K, V> map) {
         return of(map.entrySet().stream(), Map.Entry::getKey, Map.Entry::getValue, Collectors.toList());
     }
